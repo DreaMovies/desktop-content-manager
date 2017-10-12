@@ -10,7 +10,9 @@
 		<script src="./../renderer/renderer.js"></script>
 		<script>
 			(function () {
+				createContextMenu();
 				readFolder('/Users/WV01/Desktop/DreaMovies/Uploader/');
+				createNotification('Title', 'Dreamovies App Running!');
 			})();
 		</script>
 
@@ -35,13 +37,16 @@
 			}
 			.path-link{
 				cursor: pointer;
-				padding: 3px;
+				border-bottom: 1px solid transparent;
 			}
 			.path-link:hover{
-				background: #bbbbbb;
+				border-bottom: 1px solid #dedede;
 			}
-			.list-item, #folder-path{
+			.list-item{
 				cursor: pointer;
+			}
+			.ui.header:first-child{
+				margin-top: 30px;
 			}
 		</style>
 	</head>
@@ -57,12 +62,17 @@
 				<div class="shortcut" onclick="readFolder('downloads', true)"><i class="download icon" aria-hidden="true"></i> Downloads</div>
 			</div>
   			<div class="twelve wide column">
+
+  				<h3 class="ui header">
+					<i class="plug icon"></i>
+					<div class="content" id="folder-path">
+					</div>
+				</h3>
   				<table class="ui selectable celled striped table" id="listed-files">
 					<thead>
 						<tr>
-							<th colspan="2" id="folder-path">
-								Git Repository
-							</th>
+							<tr><th class="twelve wide">Name</th>
+							<th class="four wide">Size</th>
 						</tr>
 					</thead>
 					<tbody id="path-list">

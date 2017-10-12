@@ -1,4 +1,8 @@
 const {shell} = require('electron');
+const {remote} = require('electron');
+const {Menu, MenuItem} = remote;
+const menu = new Menu();
+var path = require('path');
 
 const ipcRenderer = require('electron').ipcRenderer;
 
@@ -6,7 +10,7 @@ const fs = require('fs');
 /**
  * We create an object from electron module. The shell object allows us to open the selected file
  */
-
+var clicked_element;
 
 
 function getOSFolder(name){
@@ -28,17 +32,23 @@ function readFolder(path, isOS = false) {
 		document.getElementById('path-list').innerHTML = ``;
 
 		var split_path = realPath;
-		console.log(realPath);
 		split_path = split_path.split("/");
-		console.log(split_path.length);
+
 		var conc_link = "";
-		var link_html = "";
+		var link_html = `${split_path[split_path.length-2]}<div class="sub header">
+							<div class="ui breadcrumb">`;
 		var pathLength = split_path.length;
+
 		for (var i = 0; i < pathLength-1; i++) {
-			console.log(split_path[i]);
 			conc_link +=  split_path[i] + "/";
-			link_html += `<span id="${conc_link}" onclick="readFolder(this.id)" class="path-link">${split_path[i]}</span>/`;
+			if( i < pathLength-2 ) {
+				link_html += `<a class="section path-link" id="${conc_link}" onclick="readFolder(this.id)">${split_path[i]}</span><span class="divider">/</span>`;
+			} else {
+				link_html += `<a class="active section path-link" id="${conc_link}" onclick="readFolder(this.id)">${split_path[i]}</span>`;
+			}
 		}
+		link_html += `		</div>
+						</div>`; 
 
 		document.getElementById('folder-path').innerHTML = link_html;
 
@@ -50,19 +60,20 @@ function readFolder(path, isOS = false) {
 				 */
 				let theID = `${realPath}${file}/`;
 				if (err) throw err;
-					console.log(stats);
 				if (stats.isDirectory()) {
 					/**
 					 * Add an ondblclick event to each item. With folders, call this same function (recursion) to read the contents of the folder. If its a file, call the openFile function to open the file with the default app.
 					 *
 					 */
-					document.getElementById('path-list').innerHTML += `<tr id=${theID} ondblclick="readFolder(this.id)" class="list-item list-folder"><td class="collapsing"><i class="folder icon"></i> ${file}</td>
-							<td class="right aligned collapsing"></td>
-						</tr>`;
+					document.getElementById('path-list').innerHTML += `<tr id=${theID} ondblclick="readFolder(this.id)" class="list-item list-folder">
+																			<td><i class="folder icon"></i> ${file}</td>
+																			<td class="right aligned collapsing"></td>
+																		</tr>`;
 				} else {
-					document.getElementById('path-list').innerHTML += `<tr id=${theID} ondblclick="openFile(this.id)" class="list-item list-file"><td><i class="file outline icon"></i> ${file}</td>
-							<td class="right aligned">` + humanFileSize(stats.size, true) + `</td>
-						</tr>`;
+					document.getElementById('path-list').innerHTML += `<tr id=${theID} ondblclick="openFile(this.id)" class="list-item list-file">
+																			<td><i class="file outline icon"></i> ${file}</td>
+																			<td class="right aligned">${humanFileSize(stats.size, true)}</td>
+																		</tr>`;
 				}
 			});
 		}
@@ -87,4 +98,59 @@ function humanFileSize(bytes, si) {
 		++u;
 	} while(Math.abs(bytes) >= thresh && u < units.length - 1);
 	return bytes.toFixed(1)+' '+units[u];
+}
+
+function createNotification(title, body){
+	let myNotification = new Notification(title, {
+		body: body,
+		icon: path.join(__dirname, './../public/icons/png/64x64.png')
+	})
+
+	myNotification.onclick = () => {
+		console.log('Notification clicked')
+	}
+}
+
+
+
+function createContextMenu(){
+
+	menu.append(new MenuItem({
+		label: 'Create Info in DreaMovies', 
+		click(menuItem, browserWindow, event) {
+			console.log(clicked_element); 
+		}
+	}));
+	menu.append(new MenuItem({
+		label: 'Get Subtitles', 
+		click(menuItem, browserWindow, event) {
+			console.log(clicked_element); 
+		}
+	}));
+	menu.append(new MenuItem({type: 'separator'}));
+	menu.append(new MenuItem({
+		label: 'Download', 
+		click(menuItem, browserWindow, event) {
+			console.log(clicked_element); 
+		}
+	}));
+	menu.append(new MenuItem({
+		label: 'Upload', 
+		click(menuItem, browserWindow, event) {
+			console.log(clicked_element); 
+		}
+	}));
+	menu.append(new MenuItem({type: 'separator'}));
+	menu.append(new MenuItem({
+		label: 'Delete', 
+		click(menuItem, browserWindow, event) {
+			console.log(clicked_element); 
+		}
+	}));
+
+	window.addEventListener('contextmenu', (e) => {
+		e.preventDefault();
+		clicked_element = e.target;
+		menu.popup(remote.getCurrentWindow());
+	}, false);
 }
