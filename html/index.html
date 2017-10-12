@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>DreaMovies Content Management</title>
+
+		<link rel="stylesheet" href="./../public/semantic/dist/semantic.min.css">
+		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
+		<script src="./../public/semantic/dist/semantic.min.js"></script>
+		<script src="./../renderer/renderer.js"></script>
+		<script>
+			(function () {
+				readFolder('/Users/WV01/Desktop/DreaMovies/Uploader/');
+			})();
+		</script>
+
+		<style>
+			hr {
+			    margin-top: 4px;
+			    margin-bottom: 4px;
+			}
+			.shortcut {
+			    padding: 2px;
+			    display: block;
+			    cursor: default;
+			}
+			.shortcut:hover {
+				background: #00abff;
+				color: white;
+			}
+			#display-files{
+				list-style: none;
+				padding: 5px;
+				margin: 0;
+			}
+			.path-link{
+				cursor: pointer;
+				padding: 3px;
+			}
+			.path-link:hover{
+				background: #bbbbbb;
+			}
+			.list-item, #folder-path{
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="ui grid">
+			<div class="four wide column">
+				SHORTCUTS
+				<br>
+				<hr>
+				<div class="shortcut" onclick="readFolder('desktop', true)"><i class="desktop icon" aria-hidden="true"></i> Desktop</div>
+				<div class="shortcut" onclick="readFolder('documents', true)"><i class="file icon" aria-hidden="true"></i> Documents</div>
+				<div class="shortcut" onclick="readFolder('downloads', true)"><i class="download icon" aria-hidden="true"></i> Downloads</div>
+			</div>
+  			<div class="twelve wide column">
+  				<table class="ui selectable celled striped table" id="listed-files">
+					<thead>
+						<tr>
+							<th colspan="2" id="folder-path">
+								Git Repository
+							</th>
+						</tr>
+					</thead>
+					<tbody id="path-list">
+						
+					</tbody>
+				</table>
+				<div></div>
+			</div>
+		</div>
+		<script>
+			require('./../renderer/renderer');
+		</script>
+	</body>
+</html>
