@@ -6,10 +6,24 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DreaMovies/desktop-content-manager"
+  },
   "author": "SrPatinhas",
   "license": "ISC",
   "dependencies": {
-    "semantic-ui": "^2.2.13"
+    "semantic-ui": "^2.2.13",
+    "cheerio": "latest",
+    "express": "latest",
+    "ftp": "latest",
+    "iconv-lite": "latest",
+    "node-openload": "^2.0.1",
+    "opensubtitles-api": "latest",
+    "path": "latest",
+    "request": "latest",
+    "zlib": "latest",
+    "parse-torrent-name": "latest"
   },
   "devDependencies": {
     "electron": "1.7.9"

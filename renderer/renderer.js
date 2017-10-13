@@ -7,6 +7,15 @@ var path = require('path');
 const ipcRenderer = require('electron').ipcRenderer;
 
 const fs = require('fs');
+
+//https://github.com/vankasteelj/opensubtitles-api
+var OpenSubtitles = require('opensubtitles-api');       //for subtitles
+var OS = new OpenSubtitles('Butter');
+var request = require('request');                       //to make http requests
+var zlib = require('zlib');                             //to read zipped files
+var iconv = require('iconv-lite');                      //to recode files
+const openload = require('node-openload');              //to upload files to openload 
+
 /**
  * We create an object from electron module. The shell object allows us to open the selected file
  */
