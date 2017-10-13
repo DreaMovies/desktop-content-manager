@@ -5,6 +5,7 @@
 		<title>DreaMovies Content Management</title>
 
 		<link rel="stylesheet" href="./../public/semantic/dist/semantic.min.css">
+		<link rel="stylesheet" href="./../public/css/style.css">
 		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
 		<script src="./../public/semantic/dist/semantic.min.js"></script>
 		<script src="./../renderer/renderer.js"></script>
@@ -14,74 +15,58 @@
 				readFolder('/Users/WV01/Desktop/DreaMovies/Uploader/');
 				createNotification('Title', 'Dreamovies App Running!');
 			})();
-		</script>
-
-		<style>
-			hr {
-			    margin-top: 4px;
-			    margin-bottom: 4px;
-			}
-			.shortcut {
-			    padding: 2px;
-			    display: block;
-			    cursor: default;
-			}
-			.shortcut:hover {
-				background: #00abff;
-				color: white;
-			}
-			#display-files{
-				list-style: none;
-				padding: 5px;
-				margin: 0;
-			}
-			.path-link{
-				cursor: pointer;
-				border-bottom: 1px solid transparent;
-			}
-			.path-link:hover{
-				border-bottom: 1px solid #dedede;
-			}
-			.list-item{
-				cursor: pointer;
-			}
-			.ui.header:first-child{
-				margin-top: 30px;
-			}
-		</style>
+        </script>
 	</head>
 	<body>
-
-		<div class="ui grid">
-			<div class="four wide column">
-				SHORTCUTS
-				<br>
-				<hr>
-				<div class="shortcut" onclick="readFolder('desktop', true)"><i class="desktop icon" aria-hidden="true"></i> Desktop</div>
-				<div class="shortcut" onclick="readFolder('documents', true)"><i class="file icon" aria-hidden="true"></i> Documents</div>
-				<div class="shortcut" onclick="readFolder('downloads', true)"><i class="download icon" aria-hidden="true"></i> Downloads</div>
+		<header class="topbar">
+			<div class="title">
+				<div class="top-logo">
+					<img src="./../public/icons/png/64x64.png" alt="Logo">
+				</div>
+				DreaMovies Content Management
+				<div class="app-buttons">
+					<a href="#" class="minimize" id="app-minimize"><i class="window minimize icon" aria-hidden="true"></i></a>
+					<a href="#" class="maximize" id="app-maximize"><i class="window maximize icon" aria-hidden="true"></i></a>
+					<a href="#" class="close" id="app-close">	 <i class="remove icon" aria-hidden="true"></i></a>
+				</div>
 			</div>
-  			<div class="twelve wide column">
+		</header>
+		<main class="main-content">
+			<div class="ui grid">
+				<div class="four wide column sidebar-list ui secondary vertical pointing menu">
+					<div class="header item">ShortCuts</div>
+					<a class="active item" onclick="readFolder('desktop', true)">
+						<i class="desktop icon" aria-hidden="true"></i> Desktop
+					</a>
+					<a class="item" onclick="readFolder('documents', true)">
+						<i class="file icon" aria-hidden="true"></i> Documents
+					</a>
+					<a class="item" onclick="readFolder('downloads', true)">
+						<i class="download icon" aria-hidden="true"></i> Downloads
+					</a>
+				</div>
+	  			<div class="twelve wide column content-list">
 
-  				<h3 class="ui header">
-					<i class="plug icon"></i>
-					<div class="content" id="folder-path">
-					</div>
-				</h3>
-  				<table class="ui selectable celled striped table" id="listed-files">
-					<thead>
-						<tr>
-							<tr><th class="twelve wide">Name</th>
-							<th class="four wide">Size</th>
-						</tr>
-					</thead>
-					<tbody id="path-list">
-						
-					</tbody>
-				</table>
-				<div></div>
+	  				<h3 class="ui header">
+						<i class="plug icon"></i>
+						<div class="content" id="folder-path">
+						</div>
+					</h3>
+	  				<table class="ui selectable celled striped table" id="listed-files">
+						<thead>
+							<tr>
+								<tr><th class="twelve wide">Name</th>
+								<th class="four wide">Size</th>
+							</tr>
+						</thead>
+						<tbody id="path-list">
+							
+						</tbody>
+					</table>
+					<div></div>
+				</div>
 			</div>
-		</div>
+		</main>
 		<script>
 			require('./../renderer/renderer');
 		</script>

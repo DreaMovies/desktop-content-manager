@@ -1,5 +1,5 @@
-const {shell} = require('electron');
-const {remote} = require('electron');
+const {shell, remote} = require('electron');
+const {BrowserWindow} = require('electron').remote; 		// Retrieve remote BrowserWindow
 const {Menu, MenuItem} = remote;
 const menu = new Menu();
 var path = require('path');
@@ -163,3 +163,38 @@ function createContextMenu(){
 		menu.popup(remote.getCurrentWindow());
 	}, false);
 }
+
+
+function init() {
+	// Minimize task
+	document.getElementById("app-minimize").addEventListener("click", (e) => {
+		var window = BrowserWindow.getFocusedWindow();
+		window.minimize();
+	});
+
+	// Maximize window
+	document.getElementById("app-maximize").addEventListener("click", (e) => {
+		var window = BrowserWindow.getFocusedWindow();
+		if(window.isMaximized()){
+			window.unmaximize();
+			document.getElementById("app-maximize").getElementsByTagName('i')[0].className = "window maximize icon";
+		}else{
+			window.maximize();
+			document.getElementById("app-maximize").getElementsByTagName('i')[0].className = "window restore icon";
+		}
+	});
+	// Close app
+	document.getElementById("app-close").addEventListener("click", (e) => {
+		var window = BrowserWindow.getFocusedWindow();
+		window.close();
+	});
+};
+
+document.onreadystatechange =  () => {
+	if (document.readyState == "complete") {
+		init();
+	}
+};
+
+//https://webtorrent.io/intro
+//https://github.com/webtorrent/webtorrent-desktop/blob/master/src/renderer/webtorrent.js
