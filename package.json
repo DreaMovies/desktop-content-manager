@@ -4,7 +4,8 @@
   "description": "An electron file manager and content manager",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -13,18 +14,18 @@
   "author": "SrPatinhas",
   "license": "ISC",
   "dependencies": {
-    "semantic-ui": "^2.2.13",
     "cheerio": "latest",
     "iconv-lite": "latest",
     "node-openload": "^2.0.1",
     "opensubtitles-api": "latest",
+    "parse-torrent-name": "latest",
     "path": "latest",
     "request": "latest",
-    "zlib": "latest",
-    "parse-torrent-name": "latest",
-    "webtorrent": "latest"
+    "semantic-ui": "^2.2.13",
+    "webtorrent": "latest",
+    "zlib": "latest"
   },
   "devDependencies": {
-    "electron": "1.7.9"
+    "electron": "~1.7.8"
   }
 }

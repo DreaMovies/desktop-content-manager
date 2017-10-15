@@ -1,14 +1,76 @@
-//https://github.com/vankasteelj/opensubtitles-api
+module.exports = {
 
-//to read and write files in the system
-var fs = require('fs');
+	getOSFolder: function (name){
+		return ipcRenderer.getPath(name);
+	},
 
-//path to the tests folder
-var listFolder = './teste/';
+	readFolder: function (path, isOS = false) {
+		console.log(path);
+		var realPath = "";
+		if( isOS ){
+			realPath = getOSFolder(path);
+		} else {
+			realPath = path;
+		}
 
+		fs.readdir(realPath, (err, files) => {
+			'use strict';
+			if (err) throw  err;
+			//Dynamically add <ol> tags to the div
+			document.getElementById('path-list').innerHTML = ``;
 
-fs.readdirSync(listFolder).forEach(folder => {
+			var split_path = realPath;
+			split_path = split_path.split("/");
 
-    console.log(folder);
+			var conc_link = "";
+			var link_html = split_path[split_path.length-2] + " <div class='sub header'><div class='ui breadcrumb'>";
+			var path_length = split_path.length;
 
-});
+			for (var i = 0; i < path_length-1; i++) {
+				conc_link +=  split_path[i] + "/";
+				if( i < path_length-2 ) {
+					link_html += "<a class='section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</span><span class='divider'>/</span>";
+				} else {
+					link_html += "<a class='active section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</span>";
+				}
+			}
+			link_html += "</div></div>"; 
+
+			document.getElementById('folder-path').innerHTML = link_html;
+
+			for (let file of files) {
+				fs.stat(realPath + file, (err, stats) => {
+					/**
+					 *When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. theID variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
+					 *
+					 */
+					let theID = `${realPath}${file}`;
+					console.log(`theID - ${theID}` );
+					console.log("file - " + file);
+					if (err) throw err;
+					if (stats.isDirectory()) {
+						/**
+						 * Add an ondblclick event to each item. With folders, call this same function (recursion) to read the contents of the folder. If its a file, call the openFile function to open the file with the default app.
+						 *
+						 */
+						theID += '/'; 
+						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.readFolder(\"" + theID + "\")' class='list-item list-folder'>"+
+																		"		<td data-url='" + theID + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
+																		"		<td class='right aligned collapsing'></td>"+
+																		"	</tr>";
+					} else {
+						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.openFile(\"" + theID + "\")' class='list-item list-file'>"+
+																		"		<td data-url='" + theID.substr(0, theID.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file outline icon'></i> " + file + "</td>"+
+																		"		<td class='right aligned'> " + humanFileSize(stats.size, true) + "</td>"+
+																		"	</tr>";
+					}
+				});
+			}
+		});
+	},
+
+	//open the file with the default application
+	openFile: function (path) {
+		shell.openItem(path);
+	}
+}
