@@ -16,14 +16,15 @@
   "dependencies": {
     "cheerio": "latest",
     "iconv-lite": "latest",
-    "node-openload": "^2.0.1",
+    "node-openload": "latest",
     "opensubtitles-api": "latest",
     "parse-torrent-name": "latest",
     "path": "latest",
     "request": "latest",
     "semantic-ui": "^2.2.13",
     "webtorrent": "latest",
-    "zlib": "latest"
+    "zlib": "latest",
+    "nedb": "latest"
   },
   "devDependencies": {
     "electron": "~1.7.8"

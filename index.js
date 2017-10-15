@@ -35,12 +35,12 @@ function createWindow () {
 					titleBarStyle: 'hidden',
 					backgroundColor: '#232e4e',
 					show: true,
-					icon: path.join(__dirname, 'public/icons/png/64x64.png')
+					icon: path.join(__dirname, 'src/public/icons/png/64x64.png')
 				});
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, '/html/index.html'),
+    pathname: path.join(__dirname, '/src/html/index.html'),
     protocol: 'file:',
     slashes: true
   }));
