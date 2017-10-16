@@ -41,27 +41,25 @@ module.exports = {
 			for (let file of files) {
 				fs.stat(realPath + file, (err, stats) => {
 					/**
-					 *When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. theID variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
+					 *When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. fullPath variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
 					 *
 					 */
-					let theID = `${realPath}${file}`;
-					console.log(`theID - ${theID}` );
-					console.log("file - " + file);
+					let fullPath = realPath + file;
 					if (err) throw err;
 					if (stats.isDirectory()) {
 						/**
 						 * Add an ondblclick event to each item. With folders, call this same function (recursion) to read the contents of the folder. If its a file, call the openFile function to open the file with the default app.
 						 *
 						 */
-						theID += '/'; 
-						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.readFolder(\"" + theID + "\")' class='list-item list-folder'>"+
-																		"		<td data-url='" + theID + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
+						fullPath += '/'; 
+						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
+																		"		<td data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
 																		"		<td class='right aligned collapsing'></td>"+
 																		"	</tr>";
 					} else {
-						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.openFile(\"" + theID + "\")' class='list-item list-file'>"+
-																		"		<td data-url='" + theID.substr(0, theID.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file outline icon'></i> " + file + "</td>"+
-																		"		<td class='right aligned'> " + humanFileSize(stats.size, true) + "</td>"+
+						document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
+																		"		<td data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + file + "</td>"+
+																		"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
 																		"	</tr>";
 					}
 				});

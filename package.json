@@ -16,17 +16,18 @@
   "dependencies": {
     "cheerio": "latest",
     "iconv-lite": "latest",
+    "nedb": "latest",
     "node-openload": "latest",
     "opensubtitles-api": "latest",
     "parse-torrent-name": "latest",
     "path": "latest",
     "request": "latest",
     "semantic-ui": "^2.2.13",
-    "webtorrent": "latest",
-    "zlib": "latest",
-    "nedb": "latest"
+    "underscore": "^1.8.3",
+    "webtorrent": "latest"
   },
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": "~1.7.8",
+    "video.js": "^6.2.8"
   }
 }
