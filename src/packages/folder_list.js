@@ -15,7 +15,7 @@ var readFolder = function (path, isOS = false) {
 		'use strict';
 		if (err) throw  err;
 		//Dynamically add <ol> tags to the div
-		document.getElementById('path-list').innerHTML = ``;
+		document.getElementById('dynamic-content').innerHTML = '';
 
 		var split_path = realPath;
 		split_path = split_path.split("/");
@@ -34,7 +34,7 @@ var readFolder = function (path, isOS = false) {
 		}
 		link_html += "</div></div>"; 
 
-		document.getElementById('folder-path').innerHTML = link_html;
+		var elements_list = "";
 
 		for (let file of files) {
 			fs.stat(realPath + file, (err, stats) => {
@@ -50,18 +50,43 @@ var readFolder = function (path, isOS = false) {
 					 *
 					 */
 					fullPath += '/'; 
-					document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
-																	"		<td data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
-																	"		<td class='right aligned collapsing'></td>"+
-																	"	</tr>";
+					elements_list += "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
+									"		<td data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
+									"		<td class='right aligned collapsing'></td>"+
+									"	</tr>";
 				} else {
-					document.getElementById('path-list').innerHTML += "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
-																	"		<td data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + file + "</td>"+
-																	"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
-																	"	</tr>";
+					elements_list += "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
+									"		<td data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + file + "</td>"+
+									"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
+									"		<td class='right aligned'> " + util_tools.typeFile(file) + "</td>"+
+									"		<td class='right aligned'> " + util_tools.showInfo(file) + "</td>"+
+									"		<td class='right aligned'> " + util_tools.quality(file) + "</td>"+
+									"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
+									"	</tr>";
 				}
 			});
 		}
+
+		document.getElementById('dynamic-content').innerHTML = `<div id="folder-list" class="show-content">
+						<h3 class="ui header">
+							<i class="plug icon"></i>
+							<div class="content" id="folder-path">${link_html}</div>
+						</h3>
+						<table class="ui selectable celled striped table" id="listed-files">
+							<thead>
+								<tr>
+									<th class="eight wide">File</th>
+									<th class="two wide">Type</th>
+									<th class="two wide">Season/Episode</th>
+									<th class="two wide">Quality</th>
+									<th class="two wide">Size</th>
+								</tr>
+							</thead>
+							<tbody id="path-list">
+								${elements_list}
+							</tbody>
+						</table>
+					</div>`;
 	});
 };
 
