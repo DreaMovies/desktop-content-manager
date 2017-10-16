@@ -1,11 +1,4 @@
 //var filepath = "feeds/Silicon.Valley.S01E01.HDTV.x264-KILLERS.mp4";
-
-
-module.exports = {
-
-    getInfo: function () {
-		ol.getAccountInfo().then(info => console.log(info));   // Prints account info 
-	},
 	/**************
 	upload(obj)
 	Perform an upload of a local file.
@@ -22,11 +15,19 @@ module.exports = {
 	obj.contentType: The file's content type. (only required if using a buffer)
 	***************/
 
-    fileUpload: function (fileUrl) {
-    	//ipcRenderer.send('show-prop1');file_upload
-		ol.upload({
-			file: fileUrl,
-			folder: "4349015"
-		}).then(info => console.log(info));   // Prints upload info
-	}
+var getInfo = function () {
+	ol.getAccountInfo().then(info => console.log(info));   // Prints account info 
+};
+
+var fileUpload = function (fileUrl) {
+	//ipcRenderer.send('show-prop1');file_upload
+	ol.upload({
+		file: fileUrl,
+		folder: "4349015"
+	}).then(info => console.log(info));   // Prints upload info
+};
+
+module.exports = {
+	getInfo: getInfo,
+	fileUpload: fileUpload
 }

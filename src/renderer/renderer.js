@@ -26,6 +26,10 @@ var folder_list = require('./../packages/folder_list.js');
 var subs_search = require('./../packages/subs_search.js');
 var player 		= require('./../packages/player.js');
 
+var dreamovie = {};
+dreamovie.controler = require('./../packages/dreamovies/controler.js');
+dreamovie.view 		= require('./../packages/dreamovies/view.js');
+
 
 
 var clicked_element;

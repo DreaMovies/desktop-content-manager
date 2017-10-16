@@ -19,7 +19,8 @@
 		<script src="./../../node_modules/videojs-select-subtitle/dist/videojs-select-subtitle.min.js"></script>
 		<script>
 			(function () {
-				folder_list.readFolder('C:/Users/WV01/Documents/Acabado/');//'G:/Utorrents Movies/');
+				var initial_path = 'C:/Users/WV01/Documents/Acabado/';//'G:/Utorrents Movies/'
+				folder_list.readFolder( initial_path );
 				util_tools.createNotification('Title', 'Dreamovies App Running!');
 				util_tools.createContextMenu();
 			})();
@@ -42,40 +43,49 @@
 		<main class="main-content">
 			<div class="ui grid">
 				<div class="four wide column sidebar-list ui secondary vertical pointing menu">
-					<div class="header item">ShortCuts</div>
-					<a class="active item" onclick="readFolder('desktop', true)">
+					<div class="header item">Local</div>
+					<a class="active item" onclick="folder_list.readFolder( initial_path )">
 						<i class="desktop icon" aria-hidden="true"></i> Desktop
 					</a>
-					<a class="item" onclick="readFolder('documents', true)">
+					<a class="item" onclick="folder_list.readFolder('documents', true)">
 						<i class="file icon" aria-hidden="true"></i> Documents
 					</a>
-					<a class="item" onclick="readFolder('downloads', true)">
+					<a class="item" onclick="folder_list.readFolder('downloads', true)">
 						<i class="download icon" aria-hidden="true"></i> Downloads
 					</a>
+					<div class="ui divider"></div>
+					<div class="header item">Dreamovies</div>
+					<a class="item" onclick="dreamovie.controler.MovieList()">
+						<i class="film icon" aria-hidden="true"></i> Movies
+					</a>
+					<a class="item" onclick="folder_list.readFolder('documents', true)">
+						<i class="tv icon" aria-hidden="true"></i> Shows
+					</a>
 				</div>
-	  			<div class="twelve wide column content-list">
-
-	  				<h3 class="ui header">
-						<i class="plug icon"></i>
-						<div class="content" id="folder-path">
-						</div>
-					</h3>
-	  				<table class="ui selectable celled striped table" id="listed-files">
-						<thead>
-							<tr>
-								<tr><th class="twelve wide">Name</th>
-								<th class="four wide">Size</th>
-							</tr>
-						</thead>
-						<tbody id="path-list">
-							
-						</tbody>
-					</table>
-					<div></div>
+				<div class="twelve wide column content-list">
+					<div id="folder-list" class="show-content">
+		  				<h3 class="ui header">
+							<i class="plug icon"></i>
+							<div class="content" id="folder-path">
+							</div>
+						</h3>
+						<table class="ui selectable celled striped table" id="listed-files">
+							<thead>
+								<tr>
+									<tr><th class="twelve wide">Name</th>
+									<th class="four wide">Size</th>
+								</tr>
+							</thead>
+							<tbody id="path-list">
+								
+							</tbody>
+						</table>
+					</div>
+					<div id="dynamic-content">
+					</div>
 				</div>
 			</div>
-
-			<div class="video-player" id="video-player">
+			<div id="video-player">
 				<span class="close-player"><i class="remove icon"></i></span>
 			</div>
 		</main>

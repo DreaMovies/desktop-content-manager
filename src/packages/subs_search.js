@@ -1,73 +1,75 @@
-module.exports = {
-    getSubtitle: function (name, path) {
-        console.log("getSubtitle - Name: " + name);
-        console.log("getSubtitle - Path: " + path);
 
-        config_OS = this.getType(name, path);
+var getSubtitle = function (name, path) {
+    console.log("getSubtitle - Name: " + name);
+    console.log("getSubtitle - Path: " + path);
 
-        console.log("getSubtitle - config_OS: ");
-        console.log(config_OS);
+    config_OS = this.getType(name, path);
 
-        OS.search(config_OS).then(subtitles => {
+    console.log("getSubtitle - config_OS: ");
+    console.log(config_OS);
 
-            if (Object.keys(subtitles).length > 0) {
-                console.log('Subtitle found:' + Object.keys(subtitles).length);
+    OS.search(config_OS).then(subtitles => {
 
-                var sub_folder = path + "/subs/";
+        if (Object.keys(subtitles).length > 0) {
+            console.log('Subtitle found:' + Object.keys(subtitles).length);
 
-                Object.keys(subtitles).forEach(function(key) {
-                    if (!fs.existsSync(sub_folder)){
-                        fs.mkdirSync(sub_folder);
-                    }
-                    //console.log(key, subtitles[key].filename);
-                    var fileUrl = subtitles[key].url;
-                    var output = sub_folder + key + "_" + subtitles[key].filename
-                    request({url: fileUrl, encoding: null}, function(err, resp, data) {
-                        if(err) throw err;
-                        require('zlib').unzip(data, (error, buffer) => {
-                            if (error) throw error;
-                            subtitle_content = iconv.decode(buffer, subtitles[key].encoding);
+            var sub_folder = path + "/subs/";
 
-                            fs.writeFile(output, subtitle_content, function(err) {
-                                console.log("file written! " + key + " -> " + subtitles[key].filename);
-                            });
+            Object.keys(subtitles).forEach(function(key) {
+                if (!fs.existsSync(sub_folder)){
+                    fs.mkdirSync(sub_folder);
+                }
+                //console.log(key, subtitles[key].filename);
+                var fileUrl = subtitles[key].url;
+                var output = sub_folder + key + "_" + subtitles[key].filename
+                request({url: fileUrl, encoding: null}, function(err, resp, data) {
+                    if(err) throw err;
+                    require('zlib').unzip(data, (error, buffer) => {
+                        if (error) throw error;
+                        subtitle_content = iconv.decode(buffer, subtitles[key].encoding);
+
+                        fs.writeFile(output, subtitle_content, function(err) {
+                            console.log("file written! " + key + " -> " + subtitles[key].filename);
                         });
                     });
                 });
+            });
 
-            } else {
-                throw 'no subtitle found';
-            }
-        }).catch(console.error);
-    },
-
-    getType: function(name, path){
-
-        var regex = /[sS]?0*(\d+)?[xEe]0*(\d+)/g;
-        var show_info;
-
-        treated_name = name.split("1080p").join('.').split("720p").join('.').split("480p");
-        treated_name = treated_name[0].replace(".", " ");
-
-        if ((show_info = regex.exec(name)) !== null) {
-            config_OS = {
-                query:        treated_name,
-                //filename:       name + path,
-                sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
-                season:         show_info[1],
-                episode:        show_info[2],
-                gzip:           true
-            };
         } else {
-            config_OS = {
-                query:          treated_name,
-                //filename:     name + path,
-                sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
-                gzip:           true
-            };
+            throw 'no subtitle found';
         }
-        return config_OS;
+    }).catch(console.error);
+};
+
+var getType = function(name, path){
+    var regex = /[sS]?0*(\d+)?[xEe]0*(\d+)/g;
+    var show_info;
+
+    treated_name = name.split("1080p").join('.').split("720p").join('.').split("480p");
+    treated_name = treated_name[0].replace(".", " ");
+
+    if ((show_info = regex.exec(name)) !== null) {
+        config_OS = {
+            //filename:     name + path,
+            query:          treated_name,
+            sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
+            season:         show_info[1],
+            episode:        show_info[2],
+            gzip:           true
+        };
+    } else {
+        config_OS = {
+            //filename:     name + path,
+            query:          treated_name,
+            sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
+            gzip:           true
+        };
     }
+    return config_OS;
+};
+module.exports = {
+    getSubtitle: getSubtitle,
+    getType: getType
 };
 
 
