@@ -1,3 +1,32 @@
+.video-player {
+    display: none;
+    opacity: 0;
+    position: fixed;
+    top: 35px;
+    left: 0;
+    z-index: 45;
+    width: 100%;
+    height: calc( 100% - 35px );
+    -webkit-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+
+}
+.video-player.show-player{
+    display: block;
+    opacity: 1;
+} 
+.close-player{
+    position: fixed;
+    top: 45px;
+    right: 10px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 46;
+}
+/**
+ * VIDEO.JS CSS
+ */
 .video-js .vjs-menu-button-inline.vjs-slider-active,.video-js .vjs-menu-button-inline:focus,.video-js .vjs-menu-button-inline:hover,.video-js.vjs-no-flex .vjs-menu-button-inline {
     width: 10em
 }
@@ -52,7 +81,10 @@
 
 .video-js {
     font-size: 14px;
-    overflow: hidden
+    overflow: hidden;
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
 .video-js .vjs-control {

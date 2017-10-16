@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-cast-api-enabled="true"> <!-- allow chromecast extention -->
 	<head>
 		<meta charset="UTF-8">
+
 		<title>DreaMovies Content Management</title>
 
 		<link rel="stylesheet" href="./../public/semantic/dist/semantic.min.css">
+		<link rel="stylesheet" href="./../../node_modules/video.js/dist/video-js.min.css">
+		<link rel="stylesheet" href="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.css">
+
 		<link rel="stylesheet" href="./../public/css/style.css">
 		<link rel="stylesheet" href="./../public/css/video.css">
 		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
 		<script src="./../public/semantic/dist/semantic.min.js"></script>
 		<script src="./../renderer/renderer.js"></script>
+		<!--<script src="./../public/js/cast_sender.js"></script>  add chromecast sdk 
+		<script src="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.min.js"></script>-->
+		<script src="./../../node_modules/videojs-select-subtitle/dist/videojs-select-subtitle.min.js"></script>
 		<script>
 			(function () {
 				folder_list.readFolder('C:/Users/WV01/Documents/Acabado/');//'G:/Utorrents Movies/');
@@ -68,17 +75,8 @@
 				</div>
 			</div>
 
-			<div class="video-player">
-				<video id="my-player" class="video-js"></video>
-				<!-- <video id="my-player" class="video-js" controls preload="auto" poster="//vjs.zencdn.net/v/oceans.png" data-setup='{}'>
-					<source src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4"></source>
-					<source src="//vjs.zencdn.net/v/oceans.webm" type="video/webm"></source>
-					<source src="//vjs.zencdn.net/v/oceans.ogv" type="video/ogg"></source>
-					<p class="vjs-no-js">
-						To view this video please enable JavaScript, and consider upgrading to a web browser that
-						<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-					</p>
-				</video> -->
+			<div class="video-player" id="video-player">
+				<span class="close-player"><i class="remove icon"></i></span>
 			</div>
 		</main>
 
