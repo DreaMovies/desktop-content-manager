@@ -126,8 +126,8 @@ var createContextMenu = function(){
 };
 
 var showDynamicContent = function(elementID){
-	document.getElementsByClassName("show-content")[0].classList = "";
-	document.getElementById(elementID).classList = "show-content";
+	//document.getElementsByClassName("show-content")[0].classList = "";
+	//document.getElementById(elementID).classList = "show-content";
 }
 
 module.exports = {

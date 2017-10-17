@@ -27,15 +27,18 @@ var readFolder = function (path, isOS = false) {
 		for (var i = 0; i < path_length-1; i++) {
 			conc_link +=  split_path[i] + "/";
 			if( i < path_length-2 ) {
-				link_html += "<a class='section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</span><span class='divider'>/</span>";
+				link_html += "<a class='section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</a><span class='divider'>/</span>";
 			} else {
-				link_html += "<a class='active section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</span>";
+				link_html += "<a class='active section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</a>";
 			}
 		}
 		link_html += "</div></div>"; 
 
 		var elements_list = "";
 
+		var show_info = "";
+		var element_details = {quality: "", type: ""};
+		
 		for (let file of files) {
 			fs.stat(realPath + file, (err, stats) => {
 				/**
@@ -55,12 +58,15 @@ var readFolder = function (path, isOS = false) {
 									"		<td class='right aligned collapsing'></td>"+
 									"	</tr>";
 				} else {
+					/*var element_details = util_tools.FileInfo(file);
+					if( element_details.typeFile == "show" ){
+						show_info = "S" + element_details.season + " E" + element_details.episode;
+					}*/
 					elements_list += "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
 									"		<td data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + file + "</td>"+
-									"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
-									"		<td class='right aligned'> " + util_tools.typeFile(file) + "</td>"+
-									"		<td class='right aligned'> " + util_tools.showInfo(file) + "</td>"+
-									"		<td class='right aligned'> " + util_tools.quality(file) + "</td>"+
+									"		<td class='right aligned'> " + element_details.type + "</td>"+
+									"		<td class='right aligned'> " + show_info + "</td>"+
+									"		<td class='right aligned'> " + element_details.quality + "</td>"+
 									"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
 									"	</tr>";
 				}

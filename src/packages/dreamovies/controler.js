@@ -2,7 +2,7 @@ var dreamovies_config = {
 	apiV: "1",
 	url: "https://dreamovies.tk/v",
 	apiKey: ""
-}
+};
 
 var requestUrl = "https://dreamovies.tk/api/movies";
 const request_options = {  
@@ -25,29 +25,41 @@ var Login 		= function(){
 };
 
 var MovieList 	= function(){
-
 	requestUrl = dreamovies_config.url + dreamovies_config.apiV + "/api/movies";
-console.log(requestUrl);
-	/*, function(err, res, body) {  
-		let json = JSON.parse(body);
-		console.log(json);
-	})*/
 	request(requestUrl, function (error, response, body) {
 		dreamovie.view.MovieList( JSON.parse(body).data );
-		util_tools.showDynamicContent("dynamic-content");
+		//util_tools.showDynamicContent("dynamic-content");
 	});
 };
 
-var MovieDetail = function(){
+var MovieDetail = function(id){
+	console.log("movie Detail " + id);
+	requestUrl = dreamovies_config.url + dreamovies_config.apiV + "/api/movie/" + id ;
+	request(requestUrl, function (error, response, body) {
 
+		console.log(body);
+		dreamovie.view.MovieDetail( JSON.parse(body) );
+		//util_tools.showDynamicContent("dynamic-content");
+	});
 };
 
 var ShowList 	= function(){
-
+	requestUrl = dreamovies_config.url + dreamovies_config.apiV + "/api/shows";
+	request(requestUrl, function (error, response, body) {
+		dreamovie.view.ShowList( JSON.parse(body).data );
+		//util_tools.showDynamicContent("dynamic-content");
+	});
 };
 
 var ShowDetail 	= function(){
+	console.log("Show Detail " + id);
+	requestUrl = dreamovies_config.url + dreamovies_config.apiV + "/api/show/" + id ;
+	request(requestUrl, function (error, response, body) {
 
+		console.log(body);
+		dreamovie.view.ShowDetail( JSON.parse(body) );
+		//util_tools.showDynamicContent("dynamic-content");
+	});
 };
 
 var MovieSeen 	= function(){

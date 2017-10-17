@@ -68,6 +68,15 @@ hr {
 .topbar .title .top-logo img{
 	height: 20px;
 }
+.topbar .title .top-logo .menu-toggle{
+	display: inline-block;
+	z-index: 60;
+	color: #fff;
+	font-size: 25px;
+	cursor: pointer;
+	width: 30px;
+	height: 100%;
+}
 .topbar .app-buttons{
 	-webkit-user-select: none;
 	-webkit-app-region: drag;
@@ -136,3 +145,9 @@ hr {
 	display: inline-block;
 	opacity: 1;
 }
+
+/*
+	color 1 - #d12750
+	color 2 - #75174c
+	
+*/

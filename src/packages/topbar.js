@@ -21,6 +21,12 @@ var createTopBar = function() {
 		window.close();
 	});
 }
+
+var toggleSidebar = function(){
+
+};
+
 module.exports = {
-	createTopBar: createTopBar
+	createTopBar: createTopBar,
+	toggleSidebar: toggleSidebar
 }
