@@ -1,0 +1,120 @@
+.logout{
+    font-weight: 800;
+}
+/**
+  * 
+  **/
+
+.sidebar-menu .user-settings {
+    margin: 20px auto;
+}
+.sidebar-menu .user-settings ul {
+    list-style: none;
+    font-size: 0;
+}
+.sidebar-menu .user-settings li {
+    width: 33%;
+    display: inline-block;
+}
+
+.sidebar-menu .user-settings li a {
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.sidebar-menu .user-info {
+    margin: 0 auto 10px;
+    vertical-align: middle;
+    font-size: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: #dedede;
+    box-shadow: 0 0px 5px #4e4e4e;
+}
+
+.user-info .user-avatar {
+    width: 20%;
+    display: inline-block;
+    height: auto;
+    margin: 8px 0;
+}
+.user-info .user-content{
+    width: calc( 100% - 20% );
+    display: inline-block;
+    padding: 10px 0 0 15px;
+    height: 100%;
+    float: right;
+}
+.user-info .user-content .user-name {
+    /* display: block; */
+    /* width: 100%; */
+    font-weight: 700;
+    margin: 2px 0;
+    color: black;
+    font-size: 15px;
+}
+
+.user-info .user-content .user-level {
+    /* display: block; */
+    /* width: 100%; */
+    color: red;
+    font-size: 12px;
+    font-weight: 600;
+    margin: 0;
+    text-align: right;
+    float: right;
+}
+
+.user-info .user-content .progress-bar {
+    width: 100%;
+    background: #ffffff;
+    height: 8px;
+    display: block;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+
+.user-info .user-content .progress-bar .progress-bar-inside {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+    height: 100%;
+    width: 50%;
+}
+
+.user-info .user-content .user-xp {
+    font-size: 11px;
+    font-weight: 600;
+    margin: 2px 0;
+}
+
+.sidebar-menu .menu-app {
+    position: absolute;
+    bottom: 0;
+    margin: 10px auto 0;
+    vertical-align: middle;
+    font-size: 0;
+    width: 100%;
+    padding: 10px 20px;
+    background: #dedede;
+    box-shadow: 0 0px 5px #4e4e4e;
+    left: 0;
+}
+
+.sidebar-menu .menu-app ul {
+    padding: 0;
+    font-size: 12px;
+    list-style: none;
+}
+
+.sidebar-menu .menu-app a {
+    color: #000000;
+}

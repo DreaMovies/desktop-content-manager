@@ -23,7 +23,7 @@ var createTopBar = function() {
 }
 
 var toggleSidebar = function(){
-
+	console.log("Sidebar Toggle");
 };
 
 module.exports = {

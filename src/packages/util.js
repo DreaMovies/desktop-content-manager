@@ -130,10 +130,15 @@ var showDynamicContent = function(elementID){
 	//document.getElementById(elementID).classList = "show-content";
 }
 
+var createLoading = function(){
+	document.getElementById('dynamic-content').innerHTML = '<div class="boxLoading"></div>';
+}
+
 module.exports = {
 	showDynamicContent: showDynamicContent,
 	fileType: fileType,
 	humanFileSize: humanFileSize,
 	createNotification: createNotification,
-	createContextMenu: createContextMenu
+	createContextMenu: createContextMenu,
+	createLoading: createLoading
 }

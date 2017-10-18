@@ -10,19 +10,21 @@ var MovieList 	= function(list){
 		'	</div><div class="extra content"><div class="item-rate left floated"><span class="real-rating">' + list[key].rating + '</span>/10</div></div>' +
 		'</div>';
 	}
-	document.getElementById('dynamic-content').innerHTML = '<div class="ui special five doubling cards">' + link_html + '</div>';
+	document.getElementById('dynamic-content').innerHTML = '<div class="ui special five doubling cards show-content">' + link_html + '</div>';
 };
 
 var MovieDetail = function(data){
-	detail_html = 	'<div class="ui inverted vertical masthead center aligned segment">' +
-					'    <div class="ui text container">' +
-					'      <h1 class="ui inverted header">' +
-					'        Imagine-a-Company' +
-					'      </h1>' +
-					'      <h2>Do whatever you want when you want to.</h2>' +
-					'      <div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>' +
-					'    </div>' +
-					 ' </div>';
+	detail_html = 	'<div class="content-detail">' +
+					'	<div class="detail-cover" style="background-image: url(\'https://dreamovies.tk/' + data.img_fanart + '\')"></div>' +
+					'	<div class="detail-base ui text container">' +
+					'		<img class="detail-poster" src="https://dreamovies.tk/' + data.img_poster + '">' +
+					'		<h1 class="ui inverted header">' +
+					'       	<div class="sub header">' + data.rating + '</div>' +
+					'			Do whatever you want when you want to.' +
+					'		</h1>' +
+					'		<div class="ui huge primary button">Get Started <i class="right arrow icon"></i></div>' +
+					'	</div>' +
+					'</div>';
 	document.getElementById('dynamic-content').innerHTML = detail_html;
 };
 

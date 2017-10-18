@@ -12,8 +12,8 @@ var iconv 			= require('iconv-lite');                    //to recode files
 
 var videojs 		= require('video.js');						//video js 
 //var videojsChromecast = 
-require("videojs-chromecast");
-require('videojs-select-subtitle');								// The actual plugin function is exported by this module, but it is also  attached to the `Player.prototype`; so, there is no need to assign it  to a variable. 
+//require("videojs-chromecast");
+//require('videojs-select-subtitle');								// The actual plugin function is exported by this module, but it is also  attached to the `Player.prototype`; so, there is no need to assign it  to a variable. 
 var _				= require('underscore');
 //https://github.com/vankasteelj/opensubtitles-api
 var OpenSubtitles 	= require('opensubtitles-api');       		//for subtitles
@@ -33,6 +33,8 @@ dreamovie.view 		= require('./../packages/dreamovies/view.js');
 
 
 var clicked_element;
+
+util_tools.createLoading();
 
 document.onreadystatechange =  () => {
 	if (document.readyState == "complete") {

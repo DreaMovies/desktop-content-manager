@@ -2,9 +2,12 @@ var getOSFolder = function (name){
 	return ipcRenderer.getPath(name);
 };
 
+
 var readFolder = function (path, isOS = false) {
 	console.log(path);
 	var realPath = "";
+	var elements_list = "";
+
 	if( isOS ){
 		realPath = getOSFolder(path);
 	} else {
@@ -34,11 +37,30 @@ var readFolder = function (path, isOS = false) {
 		}
 		link_html += "</div></div>"; 
 
-		var elements_list = "";
 
 		var show_info = "";
 		var element_details = {quality: "", type: ""};
-		
+		//create html for table list
+		document.getElementById('dynamic-content').innerHTML = ''+
+					'<div id="folder-list" class="show-content">' +
+					'	<h3 class="ui header">' +
+					'		<i class="plug icon"></i>' +
+					'		<div class="content" id="folder-path">' + link_html + '</div>' +
+					'	</h3>' +
+					'	<table class="ui selectable celled striped table" id="listed-files">' +
+					'		<thead>' +
+					'			<tr>' +
+					'				<th class="ten wide">File</th>' +
+					'				<th class="two wide">Type</th>' +
+					'				<th class="one wide">Season Episode</th>' +
+					'				<th class="one wide">Quality</th>' +
+					'				<th class="two wide">Size</th>' +
+					'			</tr>' +
+					'		</thead>' +
+					'		<tbody id="path-list"></tbody>' +
+					'	</table>' +
+					'</div>';
+
 		for (let file of files) {
 			fs.stat(realPath + file, (err, stats) => {
 				/**
@@ -53,8 +75,11 @@ var readFolder = function (path, isOS = false) {
 					 *
 					 */
 					fullPath += '/'; 
-					elements_list += "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
+					elements_list = "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
 									"		<td data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " + file + "</td>"+
+									"		<td class='right aligned'> " + element_details.type + "</td>"+
+									"		<td class='right aligned'> " + show_info + "</td>"+
+									"		<td class='right aligned'> " + element_details.quality + "</td>"+
 									"		<td class='right aligned collapsing'></td>"+
 									"	</tr>";
 				} else {
@@ -62,7 +87,7 @@ var readFolder = function (path, isOS = false) {
 					if( element_details.typeFile == "show" ){
 						show_info = "S" + element_details.season + " E" + element_details.episode;
 					}*/
-					elements_list += "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
+					elements_list = "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
 									"		<td data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + file + "</td>"+
 									"		<td class='right aligned'> " + element_details.type + "</td>"+
 									"		<td class='right aligned'> " + show_info + "</td>"+
@@ -70,29 +95,10 @@ var readFolder = function (path, isOS = false) {
 									"		<td class='right aligned'> " + util_tools.humanFileSize(stats.size, true) + "</td>"+
 									"	</tr>";
 				}
+				document.getElementById('path-list').insertAdjacentHTML('beforeend', elements_list);
 			});
-		}
 
-		document.getElementById('dynamic-content').innerHTML = `<div id="folder-list" class="show-content">
-						<h3 class="ui header">
-							<i class="plug icon"></i>
-							<div class="content" id="folder-path">${link_html}</div>
-						</h3>
-						<table class="ui selectable celled striped table" id="listed-files">
-							<thead>
-								<tr>
-									<th class="eight wide">File</th>
-									<th class="two wide">Type</th>
-									<th class="two wide">Season/Episode</th>
-									<th class="two wide">Quality</th>
-									<th class="two wide">Size</th>
-								</tr>
-							</thead>
-							<tbody id="path-list">
-								${elements_list}
-							</tbody>
-						</table>
-					</div>`;
+		}
 	});
 };
 

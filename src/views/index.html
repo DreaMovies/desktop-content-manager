@@ -10,6 +10,8 @@
 		<link rel="stylesheet" href="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.css">
 
 		<link rel="stylesheet" href="./../public/css/style.css">
+		<link rel="stylesheet" href="./../public/css/loading.css">
+		<link rel="stylesheet" href="./../public/css/sidebar.css">
 		<link rel="stylesheet" href="./../public/css/video.css">
 		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
 		<script src="./../public/semantic/dist/semantic.min.js"></script>
@@ -17,14 +19,6 @@
 		<!--<script src="./../public/js/cast_sender.js"></script>  add chromecast sdk 
 		<script src="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.min.js"></script>-->
 		<script src="./../../node_modules/videojs-select-subtitle/dist/videojs-select-subtitle.min.js"></script>
-		<script>
-			(function () {
-				var initial_path = 'C:/Users/WV01/Documents/Acabado/';//'G:/Utorrents Movies/'
-				folder_list.readFolder( initial_path );
-				util_tools.createNotification('Title', 'Dreamovies App Running!');
-				util_tools.createContextMenu();
-			})();
-        </script>
         <style>
         	.masthead.segment {
       min-height: 700px;
@@ -47,13 +41,13 @@
       font-weight: normal;
     }
         </style>
-	</head>
+	</head><!--  -->
 	<body>
 		<header class="topbar">
 			<div class="title">
 				<div class="top-logo">
-					<a href="#" class="menu-toggle" onclick="topbar.toggleSidebar()"><i class="sidebar icon" aria-hidden="true"></i></a>
 					<img src="./../public/icons/png/64x64.png" alt="Logo">
+					<a href="#" class="menu-toggle" onclick="topbar.toggleSidebar()"><i class="sidebar icon" aria-hidden="true"></i></a>
 				</div>
 				DreaMovies Content Management
 				<div class="app-buttons">
@@ -65,7 +59,18 @@
 		</header>
 		<main class="main-content">
 			<div class="ui grid">
-				<div class="four wide column sidebar-list ui secondary vertical pointing menu ">
+				<div class="four wide column sidebar-list ui secondary vertical pointing menu sidebar-menu">
+
+					<div class="user-info">
+						<img src="https://dreamovies.tk/assets/img/avatar/default.png" alt="avatar" class="user-avatar">
+						<div class="user-content">
+							<span class="user-name">SrPatinhas</span>
+							<span class="user-level">Level 5</span>
+							<span class="progress-bar"><span class="progress-bar-inside"></span></span>
+							<span class="user-xp">34xp remaining</span>
+						</div>
+					</div>
+
 					<div class="header item">Local</div>
 					<a class="active item" onclick="folder_list.readFolder( initial_path )">
 						<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
@@ -84,6 +89,13 @@
 					<a class="item" onclick="dreamovie.controler.ShowList()">
 						<i class="tv icon" aria-hidden="true"></i> <span class="text_label">Shows</span>
 					</a>
+
+					<div class="menu-app">
+						<ul>
+							<li><a href="#">App Settings</a></li>
+							<li><a href="#" class="logout">Logout</a></li>
+						</ul>
+					</div>
 				</div>
 				<div class="twelve wide column content-list">
 					<div id="dynamic-content">
@@ -96,6 +108,14 @@
 		</main>
 
 		<script>
+			(function () {
+				util_tools.createLoading();
+				var initial_path = 'C:/Users/WV01/Documents/Acabado/';//'G:/Utorrents Movies/'
+				folder_list.readFolder( initial_path );
+				util_tools.createNotification('Title', 'Dreamovies App Running!');
+				util_tools.createContextMenu();
+			})();
+
 			require('./../renderer/renderer');
 		</script>
 	</body>
