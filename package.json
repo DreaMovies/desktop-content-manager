@@ -26,7 +26,8 @@
     "underscore": "^1.8.3",
     "videojs-chromecast": "^2.0.8",
     "videojs-select-subtitle": "^0.1.1",
-    "webtorrent": "latest"
+    "webtorrent": "latest",
+    "jquery": "latest"
   },
   "devDependencies": {
     "electron": "~1.7.8",

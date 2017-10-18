@@ -67,9 +67,22 @@ var getType = function(name, path){
     }
     return config_OS;
 };
+
+
+var getSubtitleAdvanced = function(name, path){
+    name
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+    fs.writeFile(output, subtitle_content, function(err) {
+        console.log("file written! " + key + " -> " + subtitles[key].filename);
+    });
+};
+
 module.exports = {
     getSubtitle: getSubtitle,
-    getType: getType
+    getType: getType,
+    getSubtitleAdvanced: getSubtitleAdvanced
 };
 
 

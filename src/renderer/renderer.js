@@ -9,6 +9,7 @@ const fs 			= require('fs');
 var request 		= require('request');                       //to make http requests
 //var zlib 			= require('zlib');                          //to read zipped files
 var iconv 			= require('iconv-lite');                    //to recode files
+var $ 				= require("jquery");
 
 var videojs 		= require('video.js');						//video js 
 //var videojsChromecast = 

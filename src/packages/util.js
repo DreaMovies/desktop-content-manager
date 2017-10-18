@@ -87,6 +87,12 @@ var createContextMenu = function(){
 		}
 	}));
 	menu.append(new MenuItem({
+		label: 'Get Subtitles and Create Folder', 
+		click(menuItem, browserWindow, event) {
+			subs_search.getSubtitleAdvanced( clicked_element.getAttribute("data-name"), clicked_element.getAttribute("data-url"));
+		}
+	}));
+	menu.append(new MenuItem({
 		label: 'Play this video', 
 		click(menuItem, browserWindow, event) {
 			console.log(clicked_element); 
@@ -134,11 +140,53 @@ var createLoading = function(){
 	document.getElementById('dynamic-content').innerHTML = '<div class="boxLoading"></div>';
 }
 
+var fileInfo = function(fileName) {
+	//a more complex example to see later //TODO 
+	//https://regex101.com/r/mR6oD4/1/codegen?language=javascript
+	var regex_name_year = /^(.+?)[.( \t]*(?:(19\d{2}|20(?:0\d|1[0-9])).*|(?:(?=bluray|\d+p|brrip|webrip)..*)?[.](mkv|avi|mpe?g|mp4)$)/i;
+	var regex_season_ep = /[sS]?0*(\d+)?[xEe]0*(\d+)/g;
+
+	var details = {
+		type: "",
+		name: "",
+		year: "",
+		quality: "",
+		season: "",
+		episode: "",
+	};
+
+	if ((show_number = regex_season_ep.exec(fileName)) !== null) {
+		details.type = "show";
+		details.season =  show_number[1];
+		details.episode = show_number[2];
+	} else if ( m = regex_name_year.exec(fileName)[3] !== null  ) {
+		details.type = "movie";
+	} else {
+		details.type = "other";
+	}
+	
+	if( fileName.includes("1080p") ){
+		details.quality =  "1080p";
+	} else if( fileName.includes("720p") ){
+		details.quality =  "720p";
+	} else if( fileName.includes("480p") ){
+		details.quality =  "480p";
+	}
+
+	if ( m = regex_name_year.exec(fileName) ) {
+		details.name = m[1].replace(/(^|[. ]+)(\S)/g, function(all, pre, c) { return ((pre) ? ' ' : '') + c.toUpperCase(); });
+		details.year = m[2];
+	}
+
+	return details;
+};
+
 module.exports = {
 	showDynamicContent: showDynamicContent,
 	fileType: fileType,
 	humanFileSize: humanFileSize,
 	createNotification: createNotification,
 	createContextMenu: createContextMenu,
-	createLoading: createLoading
+	createLoading: createLoading,
+	fileInfo: fileInfo
 }
