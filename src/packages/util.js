@@ -140,12 +140,12 @@ var createLoading = function(){
 	document.getElementById('dynamic-content').innerHTML = '<div class="boxLoading"></div>';
 }
 
-var fileInfo = function(fileName) {
+var fileInfo = function(fileName, isDir, path) {
 	//a more complex example to see later //TODO 
 	//https://regex101.com/r/mR6oD4/1/codegen?language=javascript
-	var regex_name_year = /^(.+?)[.( \t]*(?:(19\d{2}|20(?:0\d|1[0-9])).*|(?:(?=bluray|\d+p|brrip|webrip)..*)?[.](mkv|avi|mpe?g|mp4)$)/i;
-	var regex_season_ep = /[sS]?0*(\d+)?[xEe]0*(\d+)/g;
-
+	var regex_name_year = /^(.+?)[.( \t]*(?:(19\d{2}|20(?:0\d|1[0-9])).*|(?:(?=bluray|\d+p|brrip|webrip|HDTV)..*)?[.](mkv|avi|mpe?g|mp4)$)/i;
+	var regex_season_ep = /[sS]?0*(\d+)?[Ee]0*(\d+)/g;
+	var m = "";
 	var details = {
 		type: "",
 		name: "",
@@ -154,12 +154,15 @@ var fileInfo = function(fileName) {
 		season: "",
 		episode: "",
 	};
+	var ext = util_tools.fileType(path);
 
-	if ((show_number = regex_season_ep.exec(fileName)) !== null) {
+	if ((show_number = regex_season_ep.exec(fileName)) !== null && ( ext == "video" || isDir ) ) {
 		details.type = "show";
 		details.season =  show_number[1];
 		details.episode = show_number[2];
-	} else if ( m = regex_name_year.exec(fileName)[3] !== null  ) {
+	} else if( isDir ){
+		details.type = "folder";
+	} else if ( m = regex_name_year.exec(fileName)[3] !== null && ext == "video" ) {
 		details.type = "movie";
 	} else {
 		details.type = "other";
@@ -171,6 +174,8 @@ var fileInfo = function(fileName) {
 		details.quality =  "720p";
 	} else if( fileName.includes("480p") ){
 		details.quality =  "480p";
+	} else if( fileName.includes("HDTV") ){
+		details.quality =  "HDTV";
 	}
 
 	if ( m = regex_name_year.exec(fileName) ) {

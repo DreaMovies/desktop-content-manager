@@ -1,0 +1,15 @@
+{
+	"version": "1.0.0",
+	"localStart": "C:/Users/WV01/Documents/Acabado/",
+	"localCache": "",
+	"title": "DreaMovies Content Management",
+	"window": {
+		"width": 1280,
+		"height": 800,
+		"minWidth": 800,
+		"minHeight": 600,
+		"backgroundColor": "#232e4e"
+	},
+	"languageList": ["pt", "en", "es"],
+	"language": "pt"
+}

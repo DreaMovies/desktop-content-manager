@@ -20,7 +20,40 @@ var _				= require('underscore');
 var OpenSubtitles 	= require('opensubtitles-api');       		//for subtitles
 //create new instance
 var OS 				= new OpenSubtitles('Butter');
+//NEBD - Type 2: Persistent datastore with manual loading
+var Datastore = require('nedb');
+var db = {};
+
+
+function getInitialSettings(){
+	fs.readFile('./src/settings.json', 'utf8', function (err, json) {
+		if (!err) {
+			app_config = JSON.parse(json);
+		} else {
+			app_config = {
+				"version": "1.0.0",
+				"localStart": "C:/Users/Miguel/Downloads/",
+				"localCache": "",
+				"title": "DreaMovies Content Management",
+				"window": {
+					"width": 1280,
+					"height": 800,
+					"minWidth": 800,
+					"minHeight": 600,
+					"backgroundColor": "#232e4e"
+				},
+				"languageList": ["pt", "en", "es"],
+				"language": "pt"
+			};
+		}
+		folder_list.readFolder( app_config.localStart );
+		return app_config;
+	});
+}
+
+
 //packages
+var local_DB	= require('./../packages/db.js');
 var topbar 		= require('./../packages/topbar.js');
 var util_tools	= require('./../packages/util.js');
 var folder_list = require('./../packages/folder_list.js');
@@ -31,11 +64,16 @@ var dreamovie = {};
 dreamovie.controler = require('./../packages/dreamovies/controler.js');
 dreamovie.view 		= require('./../packages/dreamovies/view.js');
 
+//start loading
+util_tools.createLoading();
 
+local_DB.loadDB("list_folder");
 
 var clicked_element;
 
-util_tools.createLoading();
+
+var app_config = getInitialSettings();
+
 
 document.onreadystatechange =  () => {
 	if (document.readyState == "complete") {

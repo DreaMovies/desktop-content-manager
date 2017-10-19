@@ -37,9 +37,6 @@ var readFolder = function (path, isOS = false) {
 		}
 		link_html += "</div></div>"; 
 
-
-		var show_info = "";
-		var element_details = {quality: "", type: ""};
 		//create html for table list
 		document.getElementById('dynamic-content').innerHTML = ''+
 					'<div id="folder-list" class="show-content">' +
@@ -67,19 +64,21 @@ var readFolder = function (path, isOS = false) {
 				 *When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. fullPath variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
 				 *
 				 */
+
+				let fullPath = realPath + file;
 				
-				var element_details = {};
-				var element_details = util_tools.fileInfo(file);
+				var show_info = "";
+				var element_details = { type: "", name: "", year: "", quality: "", season: "", episode: "" };
+
+				var element_details = util_tools.fileInfo(file, stats.isDirectory(), fullPath);
 				if( element_details.type == "show" ){
 					show_info = "S" + element_details.season + " E" + element_details.episode;
 				}
-
-				let fullPath = realPath + file;
 				if (err) throw err;
 				if (stats.isDirectory()) {
-					fullPath += '/'; 
+					fullPath += '/';
 					elements_list = "<tr ondblclick='folder_list.readFolder(\"" + fullPath + "\")' class='list-item list-folder'>"+
-									"		<td alt='" + file + "' title='" + file + "' data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " +  ( element_details.name != '' ?  element_details.name : file ) + "</td>"+
+									"		<td alt='" + file + "' title='" + file + "' data-url='" + fullPath + "' data-name='" + file + "'><i class='folder icon'></i> " + ( element_details.name != '' ?  element_details.name : file ) + "<small style='float:right'>" + file + "</small></td>"+
 									"		<td class='right aligned'> " + element_details.type + "</td>"+
 									"		<td class='right aligned'> " + show_info + "</td>"+
 									"		<td class='right aligned'> " + element_details.quality + "</td>"+
@@ -87,7 +86,7 @@ var readFolder = function (path, isOS = false) {
 									"	</tr>";
 				} else {
 					elements_list = "<tr ondblclick='folder_list.openFile(\"" + fullPath + "\")' class='list-item list-file'>"+
-									"		<td alt='" + file + "' title='" + file + "' data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + ( element_details.name != '' ?  element_details.name : file ) + "</td>"+
+									"		<td alt='" + file + "' title='" + file + "' data-url='" + fullPath.substr(0, fullPath.lastIndexOf('/')) + "/' data-name='" + file + "'><i class='file " + util_tools.fileType(fullPath) + " outline icon'></i> " + ( element_details.name != '' ?  element_details.name : file ) + "<small style='float:right'>" + file + "</small></td>"+
 									"		<td class='right aligned'> " + element_details.type + "</td>"+
 									"		<td class='right aligned'> " + show_info + "</td>"+
 									"		<td class='right aligned'> " + element_details.quality + "</td>"+
@@ -103,7 +102,11 @@ var readFolder = function (path, isOS = false) {
 
 //open the file with the default application
 var openFile = function (path) {
-	shell.openItem(path);
+	if(util_tools.fileType(path) == "video"){
+		player.play(path);
+	} else {
+		shell.openItem(path);
+	}
 };
 
 module.exports = {

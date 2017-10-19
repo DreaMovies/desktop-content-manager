@@ -13,6 +13,9 @@ const url = require('url');
 
 var ipcMain = require('electron').ipcMain;
 
+const fs      = require('fs');
+
+
 
 const openload = require('node-openload');              //to upload files to openload
 
@@ -29,17 +32,25 @@ var ol = openload({
 let mainWindow;
 
 function createWindow () {
+  
+  var app_config = {};
+  fs.readFile('./src/settings.json', 'utf8', function (err, json) {
+      if (!err) {
+        app_config = JSON.parse(json);
+      }
+  });
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-					width: 1280,
-					height: 800,
-					minWidth: 800,
-					minHeight: 600,
-					frame: false,
-					titleBarStyle: 'hidden',
-					backgroundColor: '#232e4e',
+          titleBarStyle: 'hidden', 
+          frame: false, 
 					show: true,
-					icon: path.join(__dirname, 'src/public/icons/png/64x64.png')
+          width: app_config.width || 1280,
+          height: app_config.height || 800,
+          minWidth: app_config.minWidth || 800,
+          minHeight: app_config.minHeight || 600,
+          backgroundColor: app_config.backgroundColor || "#232e4e",
+					icon: path.join(__dirname, '/src/public/icons/png/64x64.png')
 				});
 
   // and load the index.html of the app.

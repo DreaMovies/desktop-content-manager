@@ -11,7 +11,7 @@
             transition: all .3s ease-in-out;
 
 }
-#video-player.show-content{
+#video-player.show-player{
     display: block;
     opacity: 1;
 } 
