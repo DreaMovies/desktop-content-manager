@@ -30,6 +30,9 @@ var getSubtitle = function (name, path) {
 
                         fs.writeFile(output, subtitle_content, function(err) {
                             console.log("file written! " + key + " -> " + subtitles[key].filename);
+                            /*fs.createReadStream(output)
+                                .pipe(srt2vtt())
+                                .pipe(fs.createWriteStream('some-html5-video-subtitle.vtt'))*/
                         });
                     });
                 });
@@ -42,7 +45,7 @@ var getSubtitle = function (name, path) {
 };
 
 var getType = function(name, path){
-    var regex = /[sS]?0*(\d+)?[xEe]0*(\d+)/g;
+    var regex = /[sS]?0*(\d+)?[Ee]0*(\d+)/g;
     var show_info;
 
     treated_name = name.split("1080p").join('.').split("720p").join('.').split("480p");
@@ -55,14 +58,16 @@ var getType = function(name, path){
             sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
             season:         show_info[1],
             episode:        show_info[2],
-            gzip:           true
+            gzip:           true,
+            extensions: ['vtt','srt'], 
         };
     } else {
         config_OS = {
             //filename:     name + path,
             query:          treated_name,
             sublanguageid:  'eng,fre,por,deu,ita,spa,ell,pol',
-            gzip:           true
+            gzip:           true,
+            extensions: ['vtt','srt'],
         };
     }
     return config_OS;

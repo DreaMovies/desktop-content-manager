@@ -16,6 +16,7 @@
   "dependencies": {
     "cheerio": "latest",
     "iconv-lite": "latest",
+    "jquery": "latest",
     "nedb": "latest",
     "node-openload": "latest",
     "opensubtitles-api": "latest",
@@ -23,11 +24,12 @@
     "path": "latest",
     "request": "latest",
     "semantic-ui": "^2.2.13",
+    "srt-to-vtt": "^1.1.1",
     "underscore": "^1.8.3",
     "videojs-chromecast": "^2.0.8",
+    "videojs-hotkeys": "^0.2.20",
     "videojs-select-subtitle": "^0.1.1",
-    "webtorrent": "latest",
-    "jquery": "latest"
+    "webtorrent": "latest"
   },
   "devDependencies": {
     "electron": "~1.7.8",

@@ -9,12 +9,17 @@ const fs 			= require('fs');
 var request 		= require('request');                       //to make http requests
 //var zlib 			= require('zlib');                          //to read zipped files
 var iconv 			= require('iconv-lite');                    //to recode files
-var $ 				= require("jquery");
+var jQuery			= require("jquery");
+var $ 				= jQuery;
+
+var srt2vtt 		= require('srt-to-vtt');
+
+const subtitles 	= [];
 
 var videojs 		= require('video.js');						//video js 
 //var videojsChromecast = 
 //require("videojs-chromecast");
-//require('videojs-select-subtitle');								// The actual plugin function is exported by this module, but it is also  attached to the `Player.prototype`; so, there is no need to assign it  to a variable. 
+require('videojs-select-subtitle');								// The actual plugin function is exported by this module, but it is also  attached to the `Player.prototype`; so, there is no need to assign it  to a variable. 
 var _				= require('underscore');
 //https://github.com/vankasteelj/opensubtitles-api
 var OpenSubtitles 	= require('opensubtitles-api');       		//for subtitles
