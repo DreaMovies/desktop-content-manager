@@ -69,6 +69,11 @@ var dreamovie = {};
 dreamovie.controler = require('./../packages/dreamovies/controler.js');
 dreamovie.view 		= require('./../packages/dreamovies/view.js');
 
+
+var freedom = {};
+freedom.controler 	= require('./../packages/freedom/controler.js');
+freedom.view 		= require('./../packages/freedom/view.js');
+
 //start loading
 util_tools.createLoading();
 

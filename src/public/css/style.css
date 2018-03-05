@@ -84,10 +84,11 @@ hr {
 	-webkit-user-select: none;
 	-webkit-app-region: drag;
 	float: right;
-	width: 85px;
+	width: 125px;
 	text-align: right;
 	height: 100%;
 }
+.topbar .app-buttons a.pin-top,
 .topbar .app-buttons a.minimize,
 .topbar .app-buttons a.maximize,
 .topbar .app-buttons a.close{
@@ -98,15 +99,26 @@ hr {
 	height: 100%;
 	display: inline-block;
 }
+.topbar .app-buttons a.pin-top{
+	margin-right: 5px;
+}
+.topbar .app-buttons a.pin-top:hover,
 .topbar .app-buttons a.minimize:hover,
 .topbar .app-buttons a.maximize:hover,
 .topbar .app-buttons a.close:hover{
 	background: rgba(255, 255, 255, 0.2);
 }
+.topbar .app-buttons a.pin-top i,
 .topbar .app-buttons a.minimize i,
 .topbar .app-buttons a.maximize i,
 .topbar .app-buttons a.close i{
 	margin: 0;
+}
+.topbar .app-buttons a.pin-top i.lock{
+	color: #fbbd08;
+}
+.topbar .app-buttons a.pin-top i.lock.open{
+	color: #fff;
 }
 .main-content{
 	position: relative;
@@ -183,4 +195,15 @@ hr {
 .detail-base .header{
 	margin-left: 225px;
 	width: calc( 90% - 225px );
+}
+.show-content.external-content{
+	padding: 0;
+}
+.iframe-external{
+	border: 0;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+	position: relative;
 }

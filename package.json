@@ -1,38 +1,38 @@
 {
-  "name": "dreamovies_uploader",
-  "version": "1.0.0",
-  "description": "An electron file manager and content manager",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron ."
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/DreaMovies/desktop-content-manager"
-  },
-  "author": "SrPatinhas",
-  "license": "ISC",
-  "dependencies": {
-    "cheerio": "latest",
-    "iconv-lite": "latest",
-    "jquery": "latest",
-    "nedb": "latest",
-    "node-openload": "latest",
-    "opensubtitles-api": "latest",
-    "parse-torrent-name": "latest",
-    "path": "latest",
-    "request": "latest",
-    "semantic-ui": "^2.2.13",
-    "srt-to-vtt": "^1.1.1",
-    "underscore": "^1.8.3",
-    "videojs-chromecast": "^2.0.8",
-    "videojs-hotkeys": "^0.2.20",
-    "videojs-select-subtitle": "^0.1.1",
-    "webtorrent": "latest"
-  },
-  "devDependencies": {
-    "electron": "~1.7.8",
-    "video.js": "^6.2.8"
-  }
+	"name": "dreamovies_uploader",
+	"version": "1.0.0",
+	"description": "An electron file manager and content manager",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "electron ."
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/DreaMovies/desktop-content-manager"
+	},
+	"author": "SrPatinhas",
+	"license": "ISC",
+	"dependencies": {
+		"cheerio": "latest",
+		"iconv-lite": "latest",
+		"jquery": "latest",
+		"nedb": "latest",
+		"node-openload": "latest",
+		"opensubtitles-api": "latest",
+		"parse-torrent-name": "latest",
+		"path": "latest",
+		"request": "latest",
+		"semantic-ui": "^2.2.13",
+		"srt-to-vtt": "^1.1.1",
+		"underscore": "^1.8.3",
+		"videojs-chromecast": "^2.0.8",
+		"videojs-hotkeys": "^0.2.20",
+		"videojs-select-subtitle": "^0.1.1",
+		"webtorrent": "latest"
+	},
+	"devDependencies": {
+		"electron": "~1.7.8",
+		"video.js": "^6.2.8"
+	}
 }

@@ -28,7 +28,7 @@
 
 
 .sidebar-menu .user-info {
-    margin: 0 auto 10px;
+    margin: 0 auto;
     vertical-align: middle;
     font-size: 0;
     width: 100%;
@@ -117,4 +117,11 @@
 
 .sidebar-menu .menu-app a {
     color: #000000;
+}
+
+.sidebar-menu .menu-list{
+    height: calc( 100% - 200px );
+    overflow: auto;
+    padding: 5px 2px;
+    margin: 0 auto;
 }

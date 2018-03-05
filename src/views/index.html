@@ -29,6 +29,7 @@
 				</div>
 				DreaMovies Content Management
 				<div class="app-buttons">
+					<a href="#" class="pin-top" id="app-pin"><i class="lock open icon" aria-hidden="true"></i></a>
 					<a href="#" class="minimize" id="app-minimize"><i class="window minimize icon" aria-hidden="true"></i></a>
 					<a href="#" class="maximize" id="app-maximize"><i class="window maximize icon" aria-hidden="true"></i></a>
 					<a href="#" class="close" id="app-close">	 <i class="remove icon" aria-hidden="true"></i></a>
@@ -49,24 +50,31 @@
 						</div>
 					</div>
 
-					<div class="header item">Local</div>
-					<a class="active item" onclick="folder_list.readFolder( initial_path )">
-						<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
-					</a>
-					<a class="item" onclick="folder_list.readFolder('documents', true)">
-						<i class="file icon" aria-hidden="true"></i> <span class="text_label">Documents</span>
-					</a>
-					<a class="item" onclick="folder_list.readFolder('downloads', true)">
-						<i class="download icon" aria-hidden="true"></i> <span class="text_label">Downloads</span>
-					</a>
-					<div class="ui divider"></div>
-					<div class="header item">Dreamovies</div>
-					<a class="item" onclick="dreamovie.controler.MovieList()">
-						<i class="film icon" aria-hidden="true"></i> <span class="text_label">Movies</span>
-					</a>
-					<a class="item" onclick="dreamovie.controler.ShowList()">
-						<i class="tv icon" aria-hidden="true"></i> <span class="text_label">Shows</span>
-					</a>
+					<div class="menu-list">
+						<div class="header item">Local</div>
+						<a class="active item" onclick="folder_list.readFolder( initial_path )">
+							<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
+						</a>
+						<a class="item" onclick="folder_list.readFolder('documents', true)">
+							<i class="file icon" aria-hidden="true"></i> <span class="text_label">Documents</span>
+						</a>
+						<a class="item" onclick="folder_list.readFolder('downloads', true)">
+							<i class="download icon" aria-hidden="true"></i> <span class="text_label">Downloads</span>
+						</a>
+						<div class="ui divider"></div>
+						<div class="header item">Dreamovies</div>
+						<a class="item" onclick="dreamovie.controler.MovieList()">
+							<i class="film icon" aria-hidden="true"></i> <span class="text_label">Movies</span>
+						</a>
+						<a class="item" onclick="dreamovie.controler.ShowList()">
+							<i class="tv icon" aria-hidden="true"></i> <span class="text_label">Shows</span>
+						</a>
+						<div class="ui divider"></div>
+						<div class="header item">FreeDom</div>
+						<a class="item" onclick="freedom.controler.external()">
+							<i class="film icon" aria-hidden="true"></i> <span class="text_label">AnyWhere</span>
+						</a>
+					</div>
 
 					<div class="menu-app">
 						<ul>
