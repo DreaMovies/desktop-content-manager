@@ -120,8 +120,27 @@
 }
 
 .sidebar-menu .menu-list{
-    height: calc( 100% - 200px );
+    height: calc( 100% - 190px );
     overflow: auto;
     padding: 5px 2px;
     margin: 0 auto;
+}
+.sidebar-menu.sidebar-expanded{
+    
+}
+.sidebar-menu.sidebar-expanded .user-info .user-content{
+    display: none;
+}
+.sidebar-menu.sidebar-expanded .user-info .user-avatar {
+    width: 100%;
+}
+.sidebar-menu.sidebar-expanded .menu-list .header.item,
+.sidebar-menu.sidebar-expanded .menu-list a span{
+    display: none;
+}
+.sidebar-menu.sidebar-expanded .menu-list a.item>i.icon {
+    float: none;
+    font-size: 20px;
+    margin: 0;
+    width: 100%;
 }

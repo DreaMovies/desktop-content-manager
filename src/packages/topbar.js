@@ -53,6 +53,9 @@ var createTopBar = function() {
 
 var toggleSidebar = function(){
 	console.log("Sidebar Toggle");
+	$(".sidebar-menu").toggleClass("one wide four wide sidebar-expanded");
+	$(".content-list").toggleClass("twelve wide fifteen wide");
+
 };
 
 module.exports = {

@@ -13,6 +13,9 @@
 		<link rel="stylesheet" href="./../public/css/loading.css">
 		<link rel="stylesheet" href="./../public/css/sidebar.css">
 		<link rel="stylesheet" href="./../public/css/video.css">
+
+
+		<link rel="stylesheet" href="./../packages/freedom/freedom.css">
 		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
 		<script src="./../public/semantic/dist/semantic.min.js"></script>
 		<script src="./../renderer/renderer.js"></script>
@@ -74,6 +77,9 @@
 						<a class="item" onclick="freedom.controler.external()">
 							<i class="film icon" aria-hidden="true"></i> <span class="text_label">AnyWhere</span>
 						</a>
+						<a class="item" onclick="freedom.controler.torrentStart()">
+							<i class="film icon" aria-hidden="true"></i> <span class="text_label">Torrent</span>
+						</a>
 					</div>
 
 					<div class="menu-app">
@@ -96,12 +102,15 @@
 		<script>
 			(function () {
 				util_tools.createLoading();
-				var initial_path = 'C:/Users/Miguel/Downloads/Uploaded/';//'C:/Users/WV01/Documents/Acabado/';//'G:/Utorrents Movies/'
+				var initial_path = 'C:/Users/user/Documents/';//'C:/Users/Miguel/Downloads/Uploaded/';//'G:/Utorrents Movies/'
 				util_tools.createNotification('Title', 'Dreamovies App Running!');
 				util_tools.createContextMenu();
 			})();
 
 			require('./../renderer/renderer');
 		</script>
+
+		<!-- Moment is used to show a human-readable remaining time -->
+		<script src="http://momentjs.com/downloads/moment.min.js"></script>
 	</body>
 </html>

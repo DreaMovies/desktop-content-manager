@@ -3,6 +3,7 @@
 
 
 const electron = require('electron');
+const shell	   = require('electron');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -10,6 +11,7 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+
 
 var ipcMain = require('electron').ipcMain;
 
@@ -76,7 +78,35 @@ function createWindow () {
 	mainWindow.webContents.on('new-window', function(e, url) {
 		e.preventDefault();
 	});
+
+    /*
+//prevent external navigations inside app
+	const _openInExternal = function(link) {
+		let protocol = url.parse(link).protocol;
+		if (protocol === 'http:' || protocol === 'https:') {
+			electron.openExternal(link);
+			return true;
+		} else {
+			return false;
+		}
+    }
+	webview.addEventListener('will-navigate', function(event) {
+		if (_openInExternal(e.url)) {
+			webview.stop();
+		}
+	});*/
+
 }
+
+
+app.on('web-contents-created', function(event, contents) {
+	if (contents.getType() == 'webview') {
+		contents.on('will-navigate', function(event, url) {
+			event.preventDefault();
+			shell.openExternal(url);
+		});
+	}
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

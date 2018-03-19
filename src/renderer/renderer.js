@@ -26,8 +26,12 @@ var OpenSubtitles 	= require('opensubtitles-api');       		//for subtitles
 //create new instance
 var OS 				= new OpenSubtitles('Butter');
 //NEBD - Type 2: Persistent datastore with manual loading
-var Datastore = require('nedb');
-var db = {};
+var Datastore 		= require('nedb');
+var db 				= {};
+
+//Torrent Lib
+var WebTorrent 		= require('webtorrent');
+var client 			= new WebTorrent();
 
 
 function getInitialSettings(){
