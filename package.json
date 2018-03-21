@@ -25,6 +25,7 @@
 		"request": "latest",
 		"semantic-ui": "^2.2.13",
 		"srt-to-vtt": "^1.1.1",
+		"torrent-stream": "^1.0.3",
 		"underscore": "^1.8.3",
 		"videojs-chromecast": "^2.0.8",
 		"videojs-hotkeys": "^0.2.20",

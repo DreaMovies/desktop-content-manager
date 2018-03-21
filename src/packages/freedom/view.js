@@ -64,7 +64,7 @@ var TorrentView = function(){
 		'		<label>Magnetic Link</label>' +
 		'		<textarea name="magnetic-link" id="magnetic-link" placeholder="Magnetic Link"></textarea>' +
 		'	</div>' +
-		'	<button class="ui button" onclick="freedom.controler.OpenTorrent()">Submit</button>' +
+		'	<button class="ui button" onclick="freedom.controler.OpenTorrent_stream()">Submit</button>' +
 		'</form>';
 	document.getElementById('dynamic-content').innerHTML = '<div class="ui show-content">' + link_html + '</div>';
 };
