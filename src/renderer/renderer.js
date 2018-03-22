@@ -34,6 +34,7 @@ var WebTorrent 		= require('webtorrent');
 var client 			= new WebTorrent();
 
 
+
 function getInitialSettings(){
 	fs.readFile('./src/settings.json', 'utf8', function (err, json) {
 		if (!err) {

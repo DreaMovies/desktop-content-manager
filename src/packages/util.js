@@ -186,6 +186,19 @@ var fileInfo = function(fileName, isDir, path) {
 	return details;
 };
 
+
+var app_loading = function(){
+	console.log(app_config);
+	document.getElementById('loading_app').innerHTML = '<h1 class="loading-title">DreaMovies App</h1><div class="boxLoading"></div><div class="app-version">App: 1.0.1RC</div>';
+
+	//Get current app window for resize
+	setTimeout(function(app_window){
+		document.getElementById('loading_app').classList = "app-hide";
+		ipcRenderer.send('end_loading');
+		document.getElementById('full_app').classList = "app-show";
+	}, 3000);
+}
+
 module.exports = {
 	showDynamicContent: showDynamicContent,
 	fileType: fileType,
@@ -193,5 +206,7 @@ module.exports = {
 	createNotification: createNotification,
 	createContextMenu: createContextMenu,
 	createLoading: createLoading,
-	fileInfo: fileInfo
+	fileInfo: fileInfo,
+
+	app_loading: app_loading,
 }

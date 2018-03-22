@@ -1,27 +1,25 @@
 
 //"zlib": "latest",
-
-
-const electron = require('electron');
-const shell	   = require('electron');
+const electron 		= require('electron');
+const shell	   		= require('electron');
 // Module to control application life.
-const app = electron.app;
+const app 			= electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
 
-const path = require('path');
-const url = require('url');
+const path 			= require('path');
+const url 			= require('url');
 
 
-var ipcMain = require('electron').ipcMain;
+var ipcMain 		= require('electron').ipcMain;
 
-const fs      = require('fs');
+const fs      		= require('fs');
 
 //const autoUpdater = require('electron-updater');
+var app_config 		= {};
 
 
-
-const openload = require('node-openload');              //to upload files to openload
+const openload 		= require('node-openload');              //to upload files to openload
 
 var ol = openload({
 	api_login: 'a64a34a4c8e16c20',
@@ -37,7 +35,6 @@ let mainWindow;
 
 function createWindow () {
 	
-	var app_config = {};
 	fs.readFile('./src/settings.json', 'utf8', function (err, json) {
 			if (!err) {
 				app_config = JSON.parse(json);
@@ -49,10 +46,12 @@ function createWindow () {
 					titleBarStyle: 'hidden', 
 					frame: false, 
 					show: true,
-					width: app_config.width || 1280,
-					height: app_config.height || 800,
-					minWidth: app_config.minWidth || 800,
-					minHeight: app_config.minHeight || 600,
+					resizable: false,
+					movable: false,
+					width: 325,
+					height: 400,
+					minWidth: 325,
+					minHeight: 400,
 					backgroundColor: app_config.backgroundColor || "#232e4e",
 					icon: path.join(__dirname, '/src/public/icons/png/64x64.png')
 				});
@@ -77,6 +76,18 @@ function createWindow () {
 
 	mainWindow.webContents.on('new-window', function(e, url) {
 		e.preventDefault();
+	});
+
+	//get new size to save on file
+	mainWindow.on('resize', function(e) {
+		var window_size = mainWindow.getSize();
+		console.log("Window size: " + window_size);
+
+		app_config.window.width  = window_size[0],
+		app_config.window.height = window_size[1],
+		fs.writeFile('./src/settings.json', JSON.stringify(app_config), 'utf8', function(err) {
+			err || console.log('Data replaced \n', app_config);
+		});
 	});
 
     /*
@@ -144,6 +155,21 @@ ipcMain.on('file_upload', function(event, path) {
 			event.sender.send('upload_status', info);
 		}
 	);   // Prints upload info
+});
+
+
+//resize window after loading Animation
+ipcMain.on('end_loading', function(event) {
+
+console.log(app_config.width);
+
+
+	mainWindow.setSize(app_config.width || 1280, app_config.height || 800, true);
+	mainWindow.setMinimumSize(app_config.minWidth || 800, app_config.minHeight || 600);
+	mainWindow.setResizable(true);
+	mainWindow.setMovable(true);
+	mainWindow.center();
+
 });
 
 

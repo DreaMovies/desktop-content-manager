@@ -30,24 +30,24 @@ var createTopBar = function() {
 
 	// Minimize task
 	document.getElementById("app-minimize").addEventListener("click", (e) => {
-		var window = BrowserWindow.getFocusedWindow();
-		window.minimize();
+		var app_window = BrowserWindow.getFocusedWindow();
+		app_window.minimize();
 	});
 	// Maximize window
 	document.getElementById("app-maximize").addEventListener("click", (e) => {
-		var window = BrowserWindow.getFocusedWindow();
-		if( window.isMaximized() ){
-			window.unmaximize();
+		var app_window = BrowserWindow.getFocusedWindow();
+		if( app_window.isMaximized() ){
+			app_window.unmaximize();
 			document.getElementById("app-maximize").getElementsByTagName('i')[0].className = "window maximize icon";
 		} else {
-			window.maximize();
+			app_window.maximize();
 			document.getElementById("app-maximize").getElementsByTagName('i')[0].className = "window restore icon";
 		}
 	});
 	// Close app
 	document.getElementById("app-close").addEventListener("click", (e) => {
-		var window = BrowserWindow.getFocusedWindow();
-		window.close();
+		var app_window = BrowserWindow.getFocusedWindow();
+		app_window.close();
 	});
 }
 

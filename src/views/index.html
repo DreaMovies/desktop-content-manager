@@ -24,84 +24,90 @@
 		<script src="./../../node_modules/videojs-select-subtitle/dist/videojs-select-subtitle.min.js"></script>
 	</head><!--  -->
 	<body>
-		<header class="topbar">
-			<div class="title">
-				<div class="top-logo">
-					<img src="./../public/icons/png/64x64.png" alt="Logo">
-					<a href="#" class="menu-toggle" onclick="topbar.toggleSidebar()"><i class="sidebar icon" aria-hidden="true"></i></a>
-				</div>
-				DreaMovies Content Management
-				<div class="app-buttons">
-					<a href="#" class="pin-top" id="app-pin"><i class="lock open icon" aria-hidden="true"></i></a>
-					<a href="#" class="minimize" id="app-minimize"><i class="window minimize icon" aria-hidden="true"></i></a>
-					<a href="#" class="maximize" id="app-maximize"><i class="window maximize icon" aria-hidden="true"></i></a>
-					<a href="#" class="close" id="app-close">	 <i class="remove icon" aria-hidden="true"></i></a>
-				</div>
-			</div>
-		</header>
-		<main class="main-content">
-			<div class="ui grid">
-				<div class="four wide column sidebar-list ui secondary vertical pointing menu sidebar-menu">
+		<div id="loading_app" class="app-show">
 
-					<div class="user-info">
-						<img src="https://dreamovies.tk/assets/img/avatar/default.png" alt="avatar" class="user-avatar">
-						<div class="user-content">
-							<span class="user-name">SrPatinhas</span>
-							<span class="user-level">Level 5</span>
-							<span class="progress-bar"><span class="progress-bar-inside"></span></span>
-							<span class="user-xp">34xp remaining</span>
+		</div>
+		
+		<div id="full_app" class="app-hide">
+			<header class="topbar">
+				<div class="title">
+					<div class="top-logo">
+						<img src="./../public/icons/png/64x64.png" alt="Logo">
+						<a href="#" class="menu-toggle" onclick="topbar.toggleSidebar()"><i class="sidebar icon" aria-hidden="true"></i></a>
+					</div>
+					DreaMovies Content Management
+					<div class="app-buttons">
+						<a href="#" class="pin-top" id="app-pin"><i class="lock open icon" aria-hidden="true"></i></a>
+						<a href="#" class="minimize" id="app-minimize"><i class="window minimize icon" aria-hidden="true"></i></a>
+						<a href="#" class="maximize" id="app-maximize"><i class="window maximize icon" aria-hidden="true"></i></a>
+						<a href="#" class="close" id="app-close">	 <i class="remove icon" aria-hidden="true"></i></a>
+					</div>
+				</div>
+			</header>
+			<main class="main-content">
+				<div class="ui grid">
+					<div class="four wide column sidebar-list ui secondary vertical pointing menu sidebar-menu">
+
+						<div class="user-info">
+							<img src="https://dreamovies.tk/assets/img/avatar/default.png" alt="avatar" class="user-avatar">
+							<div class="user-content">
+								<span class="user-name">SrPatinhas</span>
+								<span class="user-level">Level 5</span>
+								<span class="progress-bar"><span class="progress-bar-inside"></span></span>
+								<span class="user-xp">34xp remaining</span>
+							</div>
+						</div>
+
+						<div class="menu-list">
+							<div class="header item">Local</div>
+							<a class="active item" onclick="folder_list.readFolder( initial_path )">
+								<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
+							</a>
+							<a class="item" onclick="folder_list.readFolder('documents', true)">
+								<i class="file icon" aria-hidden="true"></i> <span class="text_label">Documents</span>
+							</a>
+							<a class="item" onclick="folder_list.readFolder('downloads', true)">
+								<i class="download icon" aria-hidden="true"></i> <span class="text_label">Downloads</span>
+							</a>
+							<div class="ui divider"></div>
+							<div class="header item">Dreamovies</div>
+							<a class="item" onclick="dreamovie.controler.MovieList()">
+								<i class="film icon" aria-hidden="true"></i> <span class="text_label">Movies</span>
+							</a>
+							<a class="item" onclick="dreamovie.controler.ShowList()">
+								<i class="tv icon" aria-hidden="true"></i> <span class="text_label">Shows</span>
+							</a>
+							<div class="ui divider"></div>
+							<div class="header item">FreeDom</div>
+							<a class="item" onclick="freedom.controler.external()">
+								<i class="film icon" aria-hidden="true"></i> <span class="text_label">AnyWhere</span>
+							</a>
+							<a class="item" onclick="freedom.controler.torrentStart()">
+								<i class="film icon" aria-hidden="true"></i> <span class="text_label">Torrent</span>
+							</a>
+						</div>
+
+						<div class="menu-app">
+							<ul>
+								<li><a href="#">App Settings</a></li>
+								<li><a href="#" class="logout">Logout</a></li>
+							</ul>
 						</div>
 					</div>
-
-					<div class="menu-list">
-						<div class="header item">Local</div>
-						<a class="active item" onclick="folder_list.readFolder( initial_path )">
-							<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
-						</a>
-						<a class="item" onclick="folder_list.readFolder('documents', true)">
-							<i class="file icon" aria-hidden="true"></i> <span class="text_label">Documents</span>
-						</a>
-						<a class="item" onclick="folder_list.readFolder('downloads', true)">
-							<i class="download icon" aria-hidden="true"></i> <span class="text_label">Downloads</span>
-						</a>
-						<div class="ui divider"></div>
-						<div class="header item">Dreamovies</div>
-						<a class="item" onclick="dreamovie.controler.MovieList()">
-							<i class="film icon" aria-hidden="true"></i> <span class="text_label">Movies</span>
-						</a>
-						<a class="item" onclick="dreamovie.controler.ShowList()">
-							<i class="tv icon" aria-hidden="true"></i> <span class="text_label">Shows</span>
-						</a>
-						<div class="ui divider"></div>
-						<div class="header item">FreeDom</div>
-						<a class="item" onclick="freedom.controler.external()">
-							<i class="film icon" aria-hidden="true"></i> <span class="text_label">AnyWhere</span>
-						</a>
-						<a class="item" onclick="freedom.controler.torrentStart()">
-							<i class="film icon" aria-hidden="true"></i> <span class="text_label">Torrent</span>
-						</a>
-					</div>
-
-					<div class="menu-app">
-						<ul>
-							<li><a href="#">App Settings</a></li>
-							<li><a href="#" class="logout">Logout</a></li>
-						</ul>
+					<div class="twelve wide column content-list">
+						<div id="dynamic-content">
+						</div>
 					</div>
 				</div>
-				<div class="twelve wide column content-list">
-					<div id="dynamic-content">
-					</div>
+				<div id="video-player">
+					<span class="close-player"><i class="remove icon"></i></span>
 				</div>
-			</div>
-			<div id="video-player">
-				<span class="close-player"><i class="remove icon"></i></span>
-			</div>
-		</main>
+			</main>
+		</div>
 
 		<script>
 			(function () {
-				util_tools.createLoading();
+				util_tools.app_loading();
 				var initial_path = 'C:/Users/user/Documents/';//'C:/Users/Miguel/Downloads/Uploaded/';//'G:/Utorrents Movies/'
 				util_tools.createNotification('Title', 'Dreamovies App Running!');
 				util_tools.createContextMenu();
