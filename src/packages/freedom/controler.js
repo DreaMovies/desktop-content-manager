@@ -25,6 +25,7 @@ var torrentStart = function(){
 };
 
 var OpenTorrent = function(){
+	require('webtorrent-hybrid')
 	var magnetURI = document.getElementById('magnetic-link').value;
 
 	util_tools.createLoading();
@@ -35,6 +36,7 @@ var OpenTorrent = function(){
 	var download_html = '<div id="hero">' +
     '  <div id="output">' +
     '    <div id="progressBar"></div>' +
+    '    <video id="video_stream" controls></video>' +
     '  </div>' +
     '  <!-- Statistics -->' +
     '  <div id="status">' +
@@ -42,7 +44,7 @@ var OpenTorrent = function(){
     '      <span class="show-leech">Downloading </span>' +
     '      <span class="show-seed">Seeding </span>' +
     '      <code>' +
-    '        <a id="torrentLink" href="https://webtorrent.io/torrents/sintel.torrent">sintel.torrent</a>' +
+    '        <a id="torrentLink"></a>' +
     '      </code>' +
     '      <span class="show-leech"> from </span>' +
     '      <span class="show-seed"> to </span>' +
@@ -62,6 +64,21 @@ var OpenTorrent = function(){
 
 	document.getElementById('dynamic-content').innerHTML = '<div class="ui show-content external-content">' + download_html + '</div>';
 
+	/*/ Select the node that will be observed for mutations
+	var targetNode = document.getElementById('output');
+	// Options for the observer (which mutations to observe)
+	var config = { attributes: false, childList: true };
+	// Create an observer instance linked to the callback function
+	var observer = new MutationObserver(function(mutations) {
+		if (!document.body.contains(element)) {
+			
+			// Later, you can stop observing
+			observer.disconnect();
+		}
+	});
+	// Start observing the target node for configured mutations
+	observer.observe(targetNode, config);*/
+
 	var torrentId = magnetURI; //'https://webtorrent.io/torrents/sintel.torrent'; // //https://zoink.ch/torrent/Marvels.Agents.of.S.H.I.E.L.D.S05E12.HDTV.x264-SVA[eztv].mkv.torrent
 
 	var client = new WebTorrent();
@@ -76,24 +93,42 @@ var OpenTorrent = function(){
 	var $uploadSpeed = document.getElementById('uploadSpeed');
 	var $downloadSpeed = document.getElementById('downloadSpeed');
 
-client.on('error', function (err) {
-	console.error('ERROR: ' + err.message)
-});
+	client.on('error', function (err) {
+		console.error('ERROR: ' + err.message)
+	});
 
 	// Download the torrent
 	client.add(torrentId, function (torrent) {
 
+		var file_index = 0;
+		// create HTTP server for this torrent
+		var server = torrent.createServer();
+		server.listen(8888); // start the server listening to a port
+
 		// Torrents can contain many files. Let's use the .mp4 file
 		var file = torrent.files.find(function (file) {
 			if( file.name.endsWith('.mp4') ){
+				console.log(file);
+				//file_index = file;
 				return file.name.endsWith('.mp4');
 			} else if( file.name.endsWith('.mkv') ){
+				console.log(file);
 				return file.name.endsWith('.mkv');
 			}
+			file_index++;
 		});
 
 		// Stream the file in the browser
-		file.appendTo('#output');
+		//file.createReadStream([opts])
+		//file.renderTo('#video_stream');
+
+
+		// visit http://localhost:<port>/ to see a list of files
+		// access individual files at http://localhost:<port>/<index> where index is the index
+		// in the torrent.files array
+		document.getElementById('video_stream').setAttribute("src", "http://localhost:8888/" + file_index);
+
+		document.getElementById('torrentLink').innerHTML = file.name;
 
 		file.getBlobURL(function (err, url) {
 			if (err) throw err;
@@ -114,6 +149,8 @@ client.on('error', function (err) {
 		});
 		torrent.on('error', function (err) {
 			console.log(err);
+			//server.close();
+			//client.destroy();
 		});
 
 		// Trigger statistics refresh
@@ -163,19 +200,27 @@ client.on('error', function (err) {
 			$body.className += ' is-seed';
 			onProgress();
 			util_tools.createNotification('Download Complete', torrent.name);
+
 		}
 
-		$("#dynamic-content").on('DOMNodeRemoved', function(e) {
+		/*$("#dynamic-content").on('DOMNodeRemoved', function(e) {
 			console.log(e.target, ' was removed');
 			torrent.destroy(function(){
 				console.log("torrent totally destroyed");
 			});
-		});
+
+			//server.close();
+			//client.destroy();
+		});*/
 		//destroy Torrent
-		
+		document.getElementsByClassName('menu-list')[0].addEventListener("click", function(e){
+			server.close();
+			client.destroy();
+			console.log("destroyed");
+			document.getElementsByClassName('menu-list')[0].removeEventListener("click");
+		});
 
 	});
-
 
 	//freedom.view.TorrentView();
 }

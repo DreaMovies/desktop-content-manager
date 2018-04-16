@@ -81,12 +81,11 @@ function createWindow () {
 	//get new size to save on file
 	mainWindow.on('resize', function(e) {
 		var window_size = mainWindow.getSize();
-		console.log("Window size: " + window_size);
 
 		app_config.window.width  = window_size[0],
 		app_config.window.height = window_size[1],
 		fs.writeFile('./src/settings.json', JSON.stringify(app_config), 'utf8', function(err) {
-			err || console.log('Data replaced \n', app_config);
+			err
 		});
 	});
 
