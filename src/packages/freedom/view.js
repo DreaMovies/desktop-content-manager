@@ -24,14 +24,14 @@ var ExternalLink = function(link){
 var ExternalView = function(link, type){
 	var content_html = "";
 	if(type == "1"){
-		content_html = '<iframe class="iframe-external" src="' + link + '" onload="this.style.height=this.contentDocument.body.scrollHeight +\'px\';" webkitallowfullscreen="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe>';
+		content_html = '<iframe class="iframe-external" src="' + link + '" onload="this.style.height=this.contentDocument.body.scrollHeight +\'px\';" webkitallowfullscreen="true" allowfullscreen="true" frameborder="0" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin allow-pointer-lock"></iframe>';
 	} else if(type == "2"){
 		content_html = '<video width="320" height="240" controls><source src="' + link + '" type="video/mp4"></video>';
 		//https://openload.co/stream/ym7b-E18i54~1520423927~83.240.0.0~P71ysq_1?mime=true
 	} else if(type == "3"){
 		content_html = '<div class="ui embed" data-url=' + link + '" data-placeholder="/images/image-16by9.png" data-icon="right circle arrow"></div>';
 	} else {
-		content_html = '<iframe class="iframe-external" src="' + link + '" onload="this.style.height=this.contentDocument.body.scrollHeight +\'px\';" webkitallowfullscreen="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe>';
+		content_html = '<iframe class="iframe-external" src="' + link + '" onload="this.style.height=this.contentDocument.body.scrollHeight +\'px\';" webkitallowfullscreen="true" allowfullscreen="true" frameborder="0" scrolling="no" sandbox="allow-forms allow-scripts allow-same-origin allow-pointer-lock"></iframe>';
 	}
 	document.getElementById('dynamic-content').innerHTML = '<div class="ui show-content external-content">' + content_html + '</div>';
 };

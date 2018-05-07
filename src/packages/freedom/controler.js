@@ -212,13 +212,15 @@ var OpenTorrent = function(){
 			//server.close();
 			//client.destroy();
 		});*/
-		//destroy Torrent
-		document.getElementsByClassName('menu-list')[0].addEventListener("click", function(e){
+
+		function destroyStream(e){
 			server.close();
 			client.destroy();
 			console.log("destroyed");
-			document.getElementsByClassName('menu-list')[0].removeEventListener("click");
-		});
+			document.getElementsByClassName('menu-list')[0].removeEventListener("click", destroyStream(e));
+		}
+		//destroy Torrent
+		document.getElementsByClassName('menu-list')[0].addEventListener("click", destroyStream(e) );
 
 	});
 
