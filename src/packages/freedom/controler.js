@@ -79,6 +79,7 @@ var OpenTorrent = function(){
 	// Start observing the target node for configured mutations
 	observer.observe(targetNode, config);*/
 
+	//https://webtorrent.io/docs
 	var torrentId = magnetURI; //'https://webtorrent.io/torrents/sintel.torrent'; // //https://zoink.ch/torrent/Marvels.Agents.of.S.H.I.E.L.D.S05E12.HDTV.x264-SVA[eztv].mkv.torrent
 
 	var client = new WebTorrent();
@@ -98,7 +99,7 @@ var OpenTorrent = function(){
 	});
 
 	// Download the torrent
-	client.add(torrentId, function (torrent) {
+	client.add(torrentId, {path: "C:/Users/user/Documents/Download/torrent"}, function (torrent) {
 
 		var file_index = 0;
 		// create HTTP server for this torrent
@@ -119,14 +120,19 @@ var OpenTorrent = function(){
 		});
 
 		// Stream the file in the browser
-		//file.createReadStream([opts])
-		//file.renderTo('#video_stream');
+		//file.createReadStream()
+		file.renderTo('#video_stream');
+		// Stream the file in the browser
+        file.appendTo('#output', function (err, elem) {
+			if (err) throw err // file failed to download or display in the DOM
+			console.log('New DOM node with the content', elem)
+		});
 
 
 		// visit http://localhost:<port>/ to see a list of files
 		// access individual files at http://localhost:<port>/<index> where index is the index
 		// in the torrent.files array
-		document.getElementById('video_stream').setAttribute("src", "http://localhost:8888/" + file_index);
+		//document.getElementById('video_stream').setAttribute("src", "http://localhost:8888/" + file_index);
 
 		document.getElementById('torrentLink').innerHTML = file.name;
 
@@ -217,10 +223,10 @@ var OpenTorrent = function(){
 			server.close();
 			client.destroy();
 			console.log("destroyed");
-			document.getElementsByClassName('menu-list')[0].removeEventListener("click", destroyStream(e));
+			document.getElementsByClassName('menu-list')[0].removeEventListener("click", destroyStream());
 		}
 		//destroy Torrent
-		document.getElementsByClassName('menu-list')[0].addEventListener("click", destroyStream(e) );
+		//document.getElementsByClassName('menu-list')[0].addEventListener("click", destroyStream() );
 
 	});
 
