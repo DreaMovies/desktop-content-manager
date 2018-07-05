@@ -60,7 +60,7 @@
 
 						<div class="menu-list">
 							<div class="header item">Local</div>
-							<a class="active item" onclick="folder_list.readFolder( initial_path )">
+							<a class="active item" onclick="folder_list.readFolder( 'desktop', true )">
 								<i class="desktop icon" aria-hidden="true"></i> <span class="text_label">Desktop</span>
 							</a>
 							<a class="item menu-item" onclick="folder_list.readFolder('documents', true)">
@@ -96,6 +96,7 @@
 					</div>
 					<div class="twelve wide column content-list">
 						<div id="dynamic-content">
+							<div class="boxLoading"></div>
 						</div>
 					</div>
 				</div>
@@ -108,7 +109,6 @@
 		<script>
 			(function () {
 				util_tools.app_loading();
-				var initial_path = 'C:/Users/user/Documents/';//'C:/Users/Miguel/Downloads/Uploaded/';//'G:/Utorrents Movies/'
 				util_tools.createNotification('Title', 'Dreamovies App Running!');
 				util_tools.createContextMenu();
 			})();

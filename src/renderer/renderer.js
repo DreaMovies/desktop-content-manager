@@ -1,9 +1,13 @@
-const {shell, remote} 	= require('electron');
+const {shell} 	= require('electron');
+
+const remote	= require('electron').remote;
+const app 		= remote.app;
+
 const {BrowserWindow, Menu, MenuItem} 	= require('electron').remote; 		// Retrieve remote BrowserWindow
 //const {} 	= remote;
-var path 				= require('path');
-var ipcRenderer 		= require('electron').ipcRenderer;
-const menu 				= new Menu();
+var path 			= require('path');
+var ipcRenderer 	= require('electron').ipcRenderer;
+const menu 			= new Menu();
 
 const fs 			= require('fs');
 var request 		= require('request');                       //to make http requests
@@ -34,6 +38,12 @@ var WebTorrent 		= require('webtorrent');
 var client 			= new WebTorrent();
 
 
+function refreshApp(){
+	
+	app.relaunch({args: process.argv.slice(1).concat(['--relaunch'])})
+	app.exit(0)
+};
+
 
 function getInitialSettings(){
 	fs.readFile('./src/settings.json', 'utf8', function (err, json) {
@@ -42,7 +52,7 @@ function getInitialSettings(){
 		} else {
 			app_config = {
 				"version": "1.0.0",
-				"localStart": "C:/Users/Miguel/Downloads/",
+				"localStart": app.getPath("desktop"),
 				"localCache": "",
 				"title": "DreaMovies Content Management",
 				"window": {
@@ -80,9 +90,11 @@ freedom.controler 	= require('./../packages/freedom/controler.js');
 freedom.view 		= require('./../packages/freedom/view.js');
 
 //start loading
-util_tools.createLoading();
+//util_tools.createLoading();
 
 local_DB.loadDB("list_folder");
+
+var settingsDB = local_DB.loadSettingsDB();
 
 var clicked_element;
 

@@ -26,48 +26,54 @@ var create = function(element){
 var play = function (path){
 	create();
 
-	var folder_path = path.substr(0, path.lastIndexOf("/")) + "/subs/";
+	var subs_folder_path = path.substr(0, path.lastIndexOf("/")) + "/subs/vtt/";
+	var subtitles = [];
 
-	if (fs.existsSync(folder_path)){
-		fs.readdir(folder_path, (err, files) => {
-			'use strict';
-			if (err) throw  err;
-
-			for (let file of files) {
-				//console.log(file);
-				var lang = file.split("_")[0];
-				//TODO replace
-				var srtData = fs.readFileSync(folder_path + file);
-				srt2vtt(srtData, function(err, vttData) {
-					if (err) throw new Error(err);
-					fs.writeFileSync(folder_path + file.split(".str")[0] + '.vtt', vttData);
-					subtitles.push({ src: folder_path + file.split(".str")[0] + '.vtt', kind: 'captions', srclang: lang, label: lang_codes[lang] });
-				});
-				
-			}
-			startPlayer(options);
-		});
-	}
-
-	var options = {
-			sources: [{
-				type: "video/mp4",
-				src: path
-			}],
-			controls: true,
-			"playbackRates": [1, 2],
-			/*chromecast:{
-				appId: 'APP-ID',
-				metadata: {
-					title: 'Title display on tech wrapper',
-					subtitle: 'Synopsis display on tech wrapper',
-				}
-			}*/
-			tracks: subtitles
+	if (fs.existsSync(subs_folder_path)){
+		var sub_list = fs.readdirSync(subs_folder_path);
+		console.log(sub_list);
+		var lang_codes = {
+			'en' : "English",
+			'fr' : "Francais",
+			'pt' : "Português",
+			'de' : "Deutsh",
+			'it' : "Italian",
+			'es' : "Spanish",
+			'el' : "Greek",
+			'pl' : "Polish"
 		};
-	
+		//if (err) throw  err;
+		
+		for (let file of sub_list) {
+			//console.log(file);
+			var lang = file.split("_")[0];
 
-
+			subtitles.push({ 
+				src: subs_folder_path + file,
+				kind: 'captions',
+				srclang: lang,
+				label: lang_codes[lang]
+			});
+			
+		}
+	}
+	var options = {
+		sources: [{
+			type: "video/mp4",
+			src: path
+		}],
+		controls: true,
+		"playbackRates": [1, 2],
+		/*chromecast:{
+			appId: 'APP-ID',
+			metadata: {
+				title: 'Title display on tech wrapper',
+				subtitle: 'Synopsis display on tech wrapper',
+			}
+		}*/
+		tracks: subtitles
+	};
+	startPlayer(options);
 };
 
 var startPlayer = function(options){

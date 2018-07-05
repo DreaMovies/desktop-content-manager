@@ -162,7 +162,7 @@ var fileInfo = function(fileName, isDir, path) {
 		details.episode = show_number[2];
 	} else if( isDir ){
 		details.type = "folder";
-	} else if ( m = regex_name_year.exec(fileName)[3] !== null && ext == "video" ) {
+	} else if ( regex_name_year.exec(fileName) !== null && regex_name_year.exec(fileName)[3] !== null && ext == "video" ) {
 		details.type = "movie";
 	} else {
 		details.type = "other";

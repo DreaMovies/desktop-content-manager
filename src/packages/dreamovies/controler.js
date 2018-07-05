@@ -54,14 +54,14 @@ var ShowList 	= function(){
 	});
 };
 
-var ShowDetail 	= function(){
+var ShowDetail 	= function(id){
 	util_tools.createLoading();
 	console.log("Show Detail " + id);
 	requestUrl = dreamovies_config.url + dreamovies_config.apiV + "/api/show/" + id ;
 	request(requestUrl, function (error, response, body) {
 
 		console.log(body);
-		dreamovie.view.ShowDetail( JSON.parse(body) );
+		dreamovie.view.ShowDetail( JSON.parse(body)[0] );
 		//util_tools.showDynamicContent("dynamic-content");
 	});
 };

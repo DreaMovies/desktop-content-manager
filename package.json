@@ -1,5 +1,5 @@
 {
-	"name": "dreamovies_uploader",
+	"name": "DreaMovies_App",
 	"version": "1.0.0",
 	"description": "An electron file manager and content manager",
 	"main": "index.js",

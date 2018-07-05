@@ -3,16 +3,17 @@ var getOSFolder = function (name){
 };
 
 
-var readFolder = function (path, isOS = false) {
-	console.log(path);
+var readFolder = function (url_path, isOS = false) {
+	console.log(url_path);
 	var realPath = "";
 	var elements_list = "";
 
 	if( isOS ){
-		realPath = getOSFolder(path);
+		realPath = app.getPath(url_path);//getOSFolder(url_path);
 	} else {
-		realPath = path;
+		realPath = url_path;
 	}
+	realPath = path.resolve(realPath).replace(/\\/g, '/') + '/';
 
 	fs.readdir(realPath, (err, files) => {
 		'use strict';
@@ -20,8 +21,21 @@ var readFolder = function (path, isOS = false) {
 		//Dynamically add <ol> tags to the div
 		document.getElementById('dynamic-content').innerHTML = '';
 
+
+
 		var split_path = realPath;
-		split_path = split_path.split("/");
+		if(split_path.split('/').length == 1){
+			if(split_path.substr(split_path.length - 1) != '\\'){
+				split_path = split_path + '\\';
+			}
+			split_path = split_path.split('\\');
+
+		} else {
+			if(split_path.substr(split_path.length - 1) != '/'){
+				split_path = split_path + '/';
+			}
+			split_path = split_path.split('/');
+		}
 
 		var conc_link = "";
 		var link_html = split_path[split_path.length-2] + " <div class='sub header'><div class='ui breadcrumb'>";
@@ -35,7 +49,9 @@ var readFolder = function (path, isOS = false) {
 				link_html += "<a class='active section path-link' onclick='folder_list.readFolder(\"" + conc_link + "\")'>" + split_path[i] + "</a>";
 			}
 		}
-		link_html += "</div></div>"; 
+		link_html += "</div></div>";
+
+
 
 		//create html for table list
 		document.getElementById('dynamic-content').innerHTML = ''+
@@ -60,9 +76,8 @@ var readFolder = function (path, isOS = false) {
 
 		for (let file of files) {
 			fs.stat(realPath + file, (err, stats) => {
-				/**
-				 *When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. fullPath variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
-				 *
+				/*
+				 * When you double click on a folder or file, we need to obtain the realPath and name so that we can use it to take action. The easiest way to obtain the realPath and name for each file and folder, is to store that information in the element itself, as an ID. this is possible since we cannot have two files with the same name in a folder. fullPath variable below is created by concatenating the realPath with file name and a / at the end. As indicated earlier, we must have the / at the end of the realPath.
 				 */
 
 				let fullPath = realPath + file;
@@ -101,16 +116,23 @@ var readFolder = function (path, isOS = false) {
 };
 
 //open the file with the default application
-var openFile = function (path) {
-	if(util_tools.fileType(path) == "video"){
-		player.play(path);
+var openFile = function (url_path) {
+	if(util_tools.fileType(url_path) == "video"){
+		player.play(url_path);
 	} else {
-		shell.openItem(path);
+		shell.openItem(url_path);
 	}
+};
+
+
+//open the file with the default application
+var refreshFolder = function (path) {
+	readFolder(path);
 };
 
 module.exports = {
 	openFile: openFile,
 	getOSFolder: getOSFolder,
-	readFolder: readFolder
+	readFolder: readFolder,
+	refreshFolder: refreshFolder
 }
