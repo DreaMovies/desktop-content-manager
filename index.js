@@ -16,7 +16,21 @@ var ipcMain 		= require('electron').ipcMain;
 const fs      		= require('fs');
 
 //const autoUpdater = require('electron-updater');
-var app_config 		= {};
+var app_config 		= {
+	"version": app.getVersion(),
+	"localStart": app.getPath("desktop"),
+	"localCache": "",
+	"title": "DreaMovies App",
+	"window": {
+		"width": 1280,
+		"height": 800,
+		"minWidth": 800,
+		"minHeight": 600,
+		"backgroundColor": "#232e4e"
+	},
+	"languageList": ["pt", "en", "es"],
+	"language": "pt"
+};
 
 
 const openload 		= require('node-openload');              //to upload files to openload
@@ -35,7 +49,7 @@ let mainWindow;
 
 function createWindow () {
 	
-	fs.readFile('./src/settings.json', 'utf8', function (err, json) {
+	fs.readFile(path.join(__dirname, '/src/settings.json'), 'utf8', function (err, json) {
 			if (!err) {
 				app_config = JSON.parse(json);
 			}
@@ -63,6 +77,7 @@ function createWindow () {
 		slashes: true
 	}));
 
+	mainWindow.webContents.openDevTools();
 	// Open the DevTools.
 	// mainWindow.webContents.openDevTools()
 

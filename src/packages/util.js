@@ -189,7 +189,7 @@ var fileInfo = function(fileName, isDir, path) {
 
 var app_loading = function(){
 	console.log(app_config);
-	document.getElementById('loading_app').innerHTML = '<h1 class="loading-title">DreaMovies App</h1><div class="boxLoading"></div><div class="app-version">App: 1.0.1RC</div>';
+	//document.getElementById('loading_app').innerHTML = '<h1 class="loading-title">DreaMovies App</h1><div class="boxLoading"></div><div class="app-version">App: 1.0.1RC</div>';
 
 	//Get current app window for resize
 	setTimeout(function(app_window){

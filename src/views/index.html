@@ -6,8 +6,8 @@
 		<title>DreaMovies Content Management</title>
 
 		<link rel="stylesheet" href="./../public/semantic/dist/semantic.min.css">
-		<link rel="stylesheet" href="./../../node_modules/video.js/dist/video-js.min.css">
-		<link rel="stylesheet" href="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.css">
+		<!-- <link rel="stylesheet" href="./../../node_modules/video.js/dist/video-js.min.css">
+		<link rel="stylesheet" href="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.css"> -->
 
 		<link rel="stylesheet" href="./../public/css/style.css">
 		<link rel="stylesheet" href="./../public/css/loading.css">
@@ -16,16 +16,28 @@
 
 
 		<link rel="stylesheet" href="./../packages/freedom/freedom.css">
-		<!-- <script src="./../public/js/jquery-3.2.1.min.js"></script> -->
+		<script src="./../public/js/jquery-3.2.1.min.js"></script>
 		<script src="./../public/semantic/dist/semantic.min.js"></script>
 		<script src="./../renderer/renderer.js"></script>
+		
+		<script>
+			require('./../renderer/renderer');
+			(function () {
+				util_tools.app_loading();
+				util_tools.createNotification('Title', 'Dreamovies App Running!');
+				util_tools.createContextMenu();
+			})();
+		</script>
+
 		<!--<script src="./../public/js/cast_sender.js"></script>  add chromecast sdk 
 		<script src="./../../node_modules/videojs-chromecast/dist/videojs-chromecast.min.js"></script>-->
 		<script src="./../../node_modules/videojs-select-subtitle/dist/videojs-select-subtitle.min.js"></script>
 	</head><!--  -->
 	<body>
 		<div id="loading_app" class="app-show">
-
+			<h1 class="loading-title">DreaMovies App</h1>
+			<div class="boxLoading"></div>
+			<div class="app-version">App Version: <span id="version-app"></span></div>
 		</div>
 		
 		<div id="full_app" class="app-hide">
@@ -105,15 +117,8 @@
 				</div>
 			</main>
 		</div>
-
-		<script>
-			(function () {
-				util_tools.app_loading();
-				util_tools.createNotification('Title', 'Dreamovies App Running!');
-				util_tools.createContextMenu();
-			})();
-
-			require('./../renderer/renderer');
+		<script type="text/javascript">
+			document.getElementById("version-app").innerHTML = app.getVersion();
 		</script>
 
 		<!-- Moment is used to show a human-readable remaining time -->

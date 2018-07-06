@@ -51,10 +51,10 @@ function getInitialSettings(){
 			app_config = JSON.parse(json);
 		} else {
 			app_config = {
-				"version": "1.0.0",
+				"version": app.getVersion(),
 				"localStart": app.getPath("desktop"),
 				"localCache": "",
-				"title": "DreaMovies Content Management",
+				"title": "DreaMovies App",
 				"window": {
 					"width": 1280,
 					"height": 800,
@@ -107,6 +107,14 @@ document.onreadystatechange =  () => {
 		topbar.createTopBar();
 	}
 };
+document.addEventListener('dragover',function(event){
+	event.preventDefault();
+	return false;
+},false);
 
+document.addEventListener('drop',function(event){
+	event.preventDefault();
+	return false;
+},false);
 //https://webtorrent.io/intro
 //https://github.com/webtorrent/webtorrent-desktop/blob/master/src/renderer/webtorrent.js
