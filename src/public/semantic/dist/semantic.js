@@ -1,5 +1,5 @@
  /*
- * # Semantic UI - 2.3.0
+ * # Semantic UI - 2.3.2
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -9,7 +9,7 @@
  *
  */
 /*!
- * # Semantic UI 2.3.0 - Site
+ * # Semantic UI 2.3.2 - Site
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -497,7 +497,7 @@ $.extend($.expr[ ":" ], {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Form Validation
+ * # Semantic UI 2.3.2 - Form Validation
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -508,7 +508,7 @@ $.extend($.expr[ ":" ], {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -933,16 +933,16 @@ $.fn.form = function(parameters) {
             var
               ruleName      = module.get.ruleName(rule),
               ancillary     = module.get.ancillaryValue(rule),
-              prompt        = rule.prompt || settings.prompt[ruleName] || settings.text.unspecifiedRule,
+              $field        = module.get.field(field.identifier),
+              value         = $field.val(),
+              prompt        = $.isFunction(rule.prompt)
+                ? rule.prompt(value)
+                : rule.prompt || settings.prompt[ruleName] || settings.text.unspecifiedRule,
               requiresValue = (prompt.search('{value}') !== -1),
               requiresName  = (prompt.search('{name}') !== -1),
               $label,
-              $field,
               name
             ;
-            if(requiresName || requiresValue) {
-              $field = module.get.field(field.identifier);
-            }
             if(requiresValue) {
               prompt = prompt.replace('{value}', $field.val());
             }
@@ -2204,7 +2204,7 @@ $.fn.form.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Accordion
+ * # Semantic UI 2.3.2 - Accordion
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2215,7 +2215,7 @@ $.fn.form.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -2818,7 +2818,7 @@ $.extend( $.easing, {
 
 
 /*!
- * # Semantic UI 2.3.0 - Checkbox
+ * # Semantic UI 2.3.2 - Checkbox
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -2829,7 +2829,7 @@ $.extend( $.easing, {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -3650,7 +3650,7 @@ $.fn.checkbox.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Dimmer
+ * # Semantic UI 2.3.2 - Dimmer
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -3661,7 +3661,7 @@ $.fn.checkbox.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -3765,6 +3765,10 @@ $.fn.dimmer = function(parameters) {
 
         bind: {
           events: function() {
+            if(module.is.page()) {
+              // touch events default to passive, due to changes in chrome to optimize mobile perf
+              $dimmable.get(0).addEventListener('touchmove', module.event.preventScroll, { passive: false });
+            }
             if(settings.on == 'hover') {
               $dimmable
                 .on('mouseenter' + eventNamespace, module.show)
@@ -3792,6 +3796,9 @@ $.fn.dimmer = function(parameters) {
 
         unbind: {
           events: function() {
+            if(module.is.page()) {
+              $dimmable.get(0).removeEventListener('touchmove', module.event.preventScroll, { passive: false });
+            }
             $module
               .removeData(moduleNamespace)
             ;
@@ -3808,6 +3815,9 @@ $.fn.dimmer = function(parameters) {
               module.hide();
               event.stopImmediatePropagation();
             }
+          },
+          preventScroll: function(event) {
+            event.preventDefault();
           }
         },
 
@@ -4361,7 +4371,7 @@ $.fn.dimmer.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Dropdown
+ * # Semantic UI 2.3.2 - Dropdown
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -4372,7 +4382,7 @@ $.fn.dimmer.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -5116,10 +5126,19 @@ $.fn.dropdown = function(parameters) {
                 callback();
               },
               onSuccess : function(response) {
-                module.remove.message();
-                module.setup.menu({
-                  values: response[fields.remoteValues]
-                });
+                var
+                  values          = response[fields.remoteValues],
+                  hasRemoteValues = ($.isArray(values) && values.length > 0)
+                ;
+                if(hasRemoteValues) {
+                  module.remove.message();
+                  module.setup.menu({
+                    values: response[fields.remoteValues]
+                  });
+                }
+                else {
+                  module.add.message(message.noResults);
+                }
                 callback();
               }
             }
@@ -5979,7 +5998,7 @@ $.fn.dropdown = function(parameters) {
               : text
             ;
             if( module.can.activate( $(element) ) ) {
-              module.set.value(value, $(element));
+              module.set.value(value, text, $(element));
               if(module.is.multiple() && !module.is.allFiltered()) {
                 return;
               }
@@ -6645,7 +6664,7 @@ $.fn.dropdown = function(parameters) {
             var
               length = module.get.query().length
             ;
-            $search.val( text.substr(0 , length));
+            $search.val( text.substr(0, length));
           },
           scrollPosition: function($item, forceScroll) {
             var
@@ -6941,6 +6960,9 @@ $.fn.dropdown = function(parameters) {
               escapedValue = module.escape.value(value),
               $label
             ;
+            if(settings.ignoreCase) {
+              escapedValue = escapedValue.toLowerCase();
+            }
             $label =  $('<a />')
               .addClass(className.label)
               .attr('data-' + metadata.value, escapedValue)
@@ -6948,7 +6970,7 @@ $.fn.dropdown = function(parameters) {
             ;
             $label = settings.onLabelCreate.call($label, escapedValue, text);
 
-            if(module.has.value(value)) {
+            if(module.has.label(value)) {
               module.debug('User selection already exists, skipping', escapedValue);
               return;
             }
@@ -7405,6 +7427,9 @@ $.fn.dropdown = function(parameters) {
               escapedValue = module.escape.value(value),
               $labels      = $module.find(selector.label)
             ;
+            if(settings.ignoreCase) {
+              escapedValue = escapedValue.toLowerCase();
+            }
             return ($labels.filter('[data-' + metadata.value + '="' + module.escape.string(escapedValue) +'"]').length > 0);
           },
           maxSelections: function() {
@@ -8251,7 +8276,7 @@ $.fn.dropdown.settings.templates = {
           ? 'disabled '
           : ''
       ;
-      html += '<div class="'+ maybeDisabled +'item" data-value="' + option[fields.value] + '"' + maybeText + '>'
+      html += '<div class="'+ maybeDisabled +'item" data-value="' + option[fields.value] + '"' + maybeText + '>';
       html +=   option[fields.name];
       html += '</div>';
     });
@@ -8279,7 +8304,7 @@ $.fn.dropdown.settings.templates = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Embed
+ * # Semantic UI 2.3.2 - Embed
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -8290,7 +8315,7 @@ $.fn.dropdown.settings.templates = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -8976,7 +9001,7 @@ $.fn.embed.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Modal
+ * # Semantic UI 2.3.2 - Modal
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -8987,7 +9012,7 @@ $.fn.embed.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -9936,7 +9961,7 @@ $.fn.modal.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Nag
+ * # Semantic UI 2.3.2 - Nag
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -9947,7 +9972,7 @@ $.fn.modal.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -10444,7 +10469,7 @@ $.extend( $.easing, {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Popup
+ * # Semantic UI 2.3.2 - Popup
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -10455,7 +10480,7 @@ $.extend( $.easing, {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -11968,7 +11993,7 @@ $.fn.popup.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Progress
+ * # Semantic UI 2.3.2 - Progress
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -11979,7 +12004,7 @@ $.fn.popup.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -12900,7 +12925,7 @@ $.fn.progress.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Rating
+ * # Semantic UI 2.3.2 - Rating
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -12911,7 +12936,7 @@ $.fn.progress.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -13409,7 +13434,7 @@ $.fn.rating.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Search
+ * # Semantic UI 2.3.2 - Search
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -13420,7 +13445,7 @@ $.fn.rating.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -14006,9 +14031,10 @@ $.fn.search = function(parameters) {
               addResult = function(array, result) {
                 var
                   notResult      = ($.inArray(result, results) == -1),
-                  notFuzzyResult = ($.inArray(result, fuzzyResults) == -1)
+                  notFuzzyResult = ($.inArray(result, fuzzyResults) == -1),
+                  notExactResults = ($.inArray(result, exactResults) == -1)
                 ;
-                if(notResult && notFuzzyResult) {
+                if(notResult && notFuzzyResult && notExactResults) {
                   array.push(result);
                 }
               }
@@ -14914,7 +14940,7 @@ $.fn.search.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Shape
+ * # Semantic UI 2.3.2 - Shape
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -14925,7 +14951,7 @@ $.fn.search.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -15836,7 +15862,7 @@ $.fn.shape.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Sidebar
+ * # Semantic UI 2.3.2 - Sidebar
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -15847,7 +15873,7 @@ $.fn.shape.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -16870,7 +16896,7 @@ $.fn.sidebar.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Sticky
+ * # Semantic UI 2.3.2 - Sticky
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -16881,7 +16907,7 @@ $.fn.sidebar.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -17830,7 +17856,7 @@ $.fn.sticky.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Tab
+ * # Semantic UI 2.3.2 - Tab
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -17841,7 +17867,7 @@ $.fn.sticky.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -18783,7 +18809,7 @@ $.fn.tab.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Transition
+ * # Semantic UI 2.3.2 - Transition
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -18794,7 +18820,7 @@ $.fn.tab.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -19879,7 +19905,7 @@ $.fn.transition.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - API
+ * # Semantic UI 2.3.2 - API
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -19890,7 +19916,7 @@ $.fn.transition.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 var
   window = (typeof window != 'undefined' && window.Math == Math)
@@ -21756,7 +21782,7 @@ $.fn.state.settings = {
 })( jQuery, window, document );
 
 /*!
- * # Semantic UI 2.3.0 - Visibility
+ * # Semantic UI 2.3.2 - Visibility
  * http://github.com/semantic-org/semantic-ui/
  *
  *
@@ -21767,7 +21793,7 @@ $.fn.state.settings = {
 
 ;(function ($, window, document, undefined) {
 
-"use strict";
+'use strict';
 
 window = (typeof window != 'undefined' && window.Math == Math)
   ? window
@@ -22690,7 +22716,7 @@ $.fn.visibility = function(parameters) {
             element.percentagePassed = 0;
 
             // meta calculations
-            element.onScreen  = (element.topVisible && !element.bottomPassed);
+            element.onScreen  = ((element.topVisible || element.passing) && !element.bottomPassed);
             element.passing   = (element.topPassed && !element.bottomPassed);
             element.offScreen = (!element.onScreen);
 

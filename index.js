@@ -160,9 +160,6 @@ ipcMain.on('file_upload', function(event, path) {
 //resize window after loading Animation
 ipcMain.on('end_loading', function(event) {
 
-console.log(app_config.width);
-
-
 	mainWindow.setSize(app_config.width || 1280, app_config.height || 800, true);
 	mainWindow.setMinimumSize(app_config.minWidth || 800, app_config.minHeight || 600);
 	mainWindow.setResizable(true);

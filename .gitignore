@@ -60,3 +60,4 @@ typings/
 package-lock.json
 data/settings.json
 src/settings.json
+release-builds/
