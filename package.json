@@ -35,7 +35,7 @@
 		"videojs-chromecast": "^2.0.8",
 		"videojs-hotkeys": "^0.2.21",
 		"videojs-select-subtitle": "^0.1.1",
-		"webtorrent": "^0.98.24",
+		"webtorrent": "^0.107.6",
 		"webtorrent-hybrid": "^1.0.6"
 	},
 	"devDependencies": {
